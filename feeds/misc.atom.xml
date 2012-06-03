@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="/" rel="alternate"></link><link href="//feeds/misc.atom.xml" rel="self"></link><id>/</id><updated>2012-06-03T17:20:00+02:00</updated><entry><title>Good evening ladies and gentlemen, parlez vous français ?</title><link href="//good-evening-ladies-and-gentlemen.html" rel="alternate"></link><updated>2012-06-03T17:20:00+02:00</updated><author><name>Georges Dubus</name></author><id>//good-evening-ladies-and-gentlemen.html</id><summary type="html">&lt;p&gt;Hi, I'm Georges Dubus, I'm a french PhD student doing some hacking on
+his free time, and here is my tentative of a blog.&lt;/p&gt;
+&lt;p&gt;I have wanted to start a blog for a long time, but never really did it
+by lack of content idea, motivation, and platform. I have finally
+gathered enough time and courage to do it. For the first post, here is
+a little technical review of the tools I used to create this, and a
+few words about what to expect here in the future.&lt;/p&gt;
+&lt;div class="section" id="creating-the-blog"&gt;
+&lt;h2&gt;Creating the blog&lt;/h2&gt;
+&lt;p&gt;The blog generation engine I use is &lt;a class="reference external" href="http://pelican.notmyidea.org/"&gt;pelican&lt;/a&gt;, which is written in
+python by Alexis Metereau. It's a nice, simple blog engine with posts
+in &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;rst&lt;/a&gt; and page templates in &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;jinja2&lt;/a&gt;. That way, I could
+create the layout with my usual IDE, &lt;a class="reference external" href="http://www.jetbrains.com/pycharm/"&gt;PyCharm&lt;/a&gt;, and I can edit posts
+with &lt;a class="reference external" href="http://www.gnu.org/software/emacs/"&gt;emacs&lt;/a&gt;. The whole thing is hosted as static github pages.&lt;/p&gt;
+&lt;p&gt;The theme is based on the default pelican theme, with some
+modifications. The main modification is the color theme, which is
+based on a &lt;a class="reference external" href="http://design-seeds.com/index.php/home/entry/country-green"&gt;palette&lt;/a&gt; I found on the internet and I liked.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="future-content"&gt;
+&lt;h2&gt;Future content&lt;/h2&gt;
+&lt;p&gt;As for the content of this blog, it should mostly be technical
+articles about python stuff and the code I write, but maybe more
+eclectic content about other things, like my thesis if I find
+something blog-suitable to say, or some interesting thoughts I may
+have.&lt;/p&gt;
+&lt;p&gt;By the way, the name of the blog means &amp;quot;Compile thyself&amp;quot; in french,
+and the title of this post is what the french scientist starts his
+speach with in &amp;quot;Close encounter of the third kind&amp;quot;.&lt;/p&gt;
+&lt;/div&gt;
+</summary><category term="pelican"></category><category term="emacs"></category><category term="github"></category><category term="blog"></category></entry></feed>
