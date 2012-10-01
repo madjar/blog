@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>Using ZODB with Pyramid on Heroku</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href=".././theme/css/main.css" type="text/css" />
+        <link href=".././" type="application/atom+xml" rel="alternate" title="Compile-toi toi même ATOM Feed" />
+        
+
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href=".././css/ie.css"/>
+                <script src=".././js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href=".././css/ie6.css"/><![endif]-->
+
+</head>
+
+<body id="index" class="home">
+
+        <header id="banner" class="body">
+                <h1><a href="../.">Compile-toi toi même  <strong>(Georges Dubus)</strong></a></h1>
+                <nav><ul>
+                
+                    <li><a href="http://compiletoi.netarchives.html">Archives</a></li>
+                
+                    <li><a href="http://compiletoi.nettags.html">Tags</a></li>
+                
+                
+                
+                
+                
+                    <li ><a href=".././category/misc.html">misc</a></li>
+                
+                    <li class="active"><a href=".././category/python.html">python</a></li>
+                
+                </ul></nav>
+        </header><!-- /#banner -->
+        
+<section id="content" class="body">
+<article class="mainarticle">
+        <header> <h1 class="entry-title"><a href=""
+        rel="bookmark" title="Permalink to Using ZODB with Pyramid on Heroku">Using ZODB with Pyramid on Heroku</a></h1>  </header>
+        <div class="entry-content">
+        <footer class="post-info">
+        <abbr class="published" title="2012-09-29T20:50:34.733469">
+                Sat 29 September 2012
+        </abbr>
+
+        
+<p>In <a href=".././category/python.html">python</a>. </p>
+<p>tags: <a href=".././tag/zodb.html">zodb</a><a href=".././tag/pyramid.html">pyramid</a><a href=".././tag/heroku.html">heroku</a><a href=".././tag/python.html">python</a></p>
+
+
+</footer><!-- /.post-info -->
+        <p>I recently discovered <a class="reference external" href="http://zodb.org/">zodb</a> through a <a class="reference external" href="http://plope.com/Members/chrism/why_i_like_zodb">post by Chris McDonough</a>.
+It's a nice object database that add persistence to normal python
+objects.  It works quite well with the traversal mode of pyramid.  I
+won't show here how it works or how to use it with pyramid : there
+already is an excellent <a class="reference external" href="http://docs.pylonsproject.org/projects/pyramid/en/1.3-branch/tutorials/wiki/index.html">tutorial</a> in the pyramid documentation.</p>
+<p>In this post, I'll show how to make it work on Heroku, which, at the
+time I started this, was far from trivial.  In the process of making
+this post, I patched <a class="reference external" href="http://pypi.python.org/pypi/RelStorage">RelStorage</a> to provide an extension to <a class="reference external" href="https://github.com/Pylons/zodburi">zodburi</a>,
+thus allowing the use of a postgresql uri in pyramid's config file for
+zodb, .</p>
+<div class="section" id="preliminaries">
+<h2>Preliminaries</h2>
+<p>First of all, let's create a basic project to work with :</p>
+<div class="highlight"><pre><span class="nv">$ </span>virtualenv -ppython2 venv
+<span class="nv">$ </span><span class="nb">source </span>venv/bin/activate
+<span class="nv">$ </span>pip install pyramid
+<span class="nv">$ </span>pcreate -t zodb herokuproject
+<span class="nv">$ </span><span class="nb">cd </span>herokuproject
+<span class="nv">$ </span>python setup.py develop
+</pre></div>
+<p>Then, we follow the step 0, 1, 2 and 3 of the <a class="reference external" href="http://docs.pylonsproject.org/projects/pyramid_cookbook/en/latest/deployment/heroku.html">cookbook</a> to have a basic
+heroku setup. Here are the raw commands. You should take a look at the
+<a class="reference external" href="http://docs.pylonsproject.org/projects/pyramid_cookbook/en/latest/deployment/heroku.html">cookbook</a> if you never done this.</p>
+<div class="highlight"><pre><span class="nv">$ </span>pip freeze | grep -v herokuproject &gt; requirements.txt
+<span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;web: ./run&quot;</span> &gt; Procfile
+<span class="nv">$ </span>cat &gt; run <span class="s">&lt;&lt; EOF</span>
+<span class="s">#!/bin/bash</span>
+<span class="s">python setup.py develop</span>
+<span class="s">python runapp.py</span>
+<span class="s">EOF</span>
+<span class="nv">$ </span>chmod +x run
+<span class="nv">$ </span>cat &gt; runapp.py <span class="s">&lt;&lt; EOF</span>
+<span class="s">import os</span>
+
+<span class="s">from paste.deploy import loadapp</span>
+<span class="s">from waitress import serve</span>
+
+<span class="s">if __name__ == &quot;__main__&quot;:</span>
+<span class="s">    port = int(os.environ.get(&quot;PORT&quot;, 5000))</span>
+<span class="s">    app = loadapp(&#39;config:production.ini&#39;, relative_to=&#39;.&#39;)</span>
+
+<span class="s">    serve(app, host=&#39;0.0.0.0&#39;, port=port)</span>
+<span class="s">EOF</span>
+<span class="nv">$ </span>wget -O .gitignore https://raw.github.com/github/gitignore/master/Python.gitignore
+<span class="nv">$ </span>git init
+<span class="nv">$ </span>git add .
+<span class="nv">$ </span>git commit -m <span class="s2">&quot;initial commit&quot;</span>
+<span class="nv">$ </span>heroku create --stack cedar
+</pre></div>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may wonder what that ugly <tt class="docutils literal">grep</tt> is doing in the <tt class="docutils literal">pip
+freeze</tt> command. It is needed because <tt class="docutils literal">pip freeze</tt> lists all the
+packages installed, including <tt class="docutils literal">herokuproject</tt> himself. That's why
+we need to remove it from the listing, otherwise pip would try to
+install it from pypi during the setup process, and would fail.</p>
+</div>
+</div>
+<div class="section" id="configuring-the-database">
+<h2>Configuring the database</h2>
+<p>We now have a project with a basic setup to deploy to heroku. All we
+have to do is configure the backend for zodb. We will use <a class="reference external" href="http://pypi.python.org/pypi/RelStorage">RelStorage</a>,
+which provide a Postgres backend for zodb, and connect to the postgres
+database provided by heroku.</p>
+<div class="section" id="enable-the-database-at-heroku">
+<h3>Enable the database at heroku</h3>
+<p>First let's tell heroku we want a database. For that, we will need a
+verified heroku account. This means you'll have to give your credit
+card number to them. They won't bill you if you don't use non free
+features, so this won't be a problem. We'll use a <a class="reference external" href="https://devcenter.heroku.com/articles/heroku-postgres-dev-plan">dev plan</a>.</p>
+<div class="highlight"><pre><span class="nv">$ </span>heroku addons:add heroku-postgresql:dev
+</pre></div>
+<p>Look at the name given to your database (mine is
+<tt class="docutils literal">HEROKU_POSTGRESQL_CRIMSON</tt>), and make it the default database
+(available as <tt class="docutils literal">DATABASE_URL</tt> using
+the pg:promote command.</p>
+<div class="highlight"><pre><span class="nv">$ </span>heroku pg:promote HEROKU_POSTGRESQL_CRIMSON  <span class="c"># Replace this with yours</span>
+</pre></div>
+</div>
+<div class="section" id="installing-the-dependencies">
+<h3>Installing the dependencies</h3>
+<p>We'll need the postgres support in RelStorage, so let's add it to our
+<tt class="docutils literal">setup.py</tt>. This will install all we need (psycopg2 and zodburi).</p>
+<div class="highlight"><pre><span class="n">requires</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">&#39;pyramid&#39;</span><span class="p">,</span>
+    <span class="s">&#39;pyramid_zodbconn&#39;</span><span class="p">,</span>
+    <span class="s">&#39;pyramid_tm&#39;</span><span class="p">,</span>
+    <span class="s">&#39;pyramid_debugtoolbar&#39;</span><span class="p">,</span>
+    <span class="s">&#39;ZODB3&#39;</span><span class="p">,</span>
+    <span class="s">&#39;waitress&#39;</span><span class="p">,</span>
+    <span class="s">&#39;relstorage[postgresql]&#39;</span><span class="p">,</span>  <span class="c"># &lt;--- add this line</span>
+    <span class="p">]</span>
+</pre></div>
+<p>Then, we install the new dependencies :</p>
+<div class="highlight"><pre><span class="nv">$ </span>python setup.py develop
+</pre></div>
+</div>
+<div class="section" id="configuring-the-app">
+<h3>Configuring the app</h3>
+<p>The tricky part is that heroku provides us the database as an
+environment variable (<tt class="docutils literal">DATABASE_URL</tt>), so we must add a little bit
+of code to the application setup for this to work. But first, let's
+modify the <tt class="docutils literal">production.ini</tt> file. Replace the line</p>
+<div class="highlight"><pre><span class="na">zodbconn.uri</span> <span class="o">=</span> <span class="s">file://%(here)s/Data.fs?connection_cache_size=20000</span>
+</pre></div>
+<p>with the line</p>
+<div class="highlight"><pre><span class="na">zodbconn.args</span> <span class="o">=</span> <span class="s">?connection_cache_size=20000</span>
+</pre></div>
+<p>Then, add add this in to the beginning of the main function in
+<tt class="docutils literal">herokuproject/__init__.py</tt> :</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="s">&#39;DATABASE_URL&#39;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+  <span class="n">settings</span><span class="p">[</span><span class="s">&#39;zodbconn.uri&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DATABASE_URL&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">settings</span><span class="p">[</span><span class="s">&#39;zodbconn.args&#39;</span><span class="p">]</span>
+</pre></div>
+<p>Also add <tt class="docutils literal">import os</tt> at the beginning of that same file.</p>
+<p>This will make your app construct the zodb uri at startup using the
+database provided by heroku and the arguments provided in the
+configuration file. This way, any command can be run on heroku,
+including <tt class="docutils literal">pshell</tt>.</p>
+</div>
+</div>
+<div class="section" id="deploying">
+<h2>Deploying</h2>
+<p>We're nearly good. Let's update our requirements.txt and commit all
+this.</p>
+<div class="highlight"><pre><span class="nv">$ </span>pip freeze | grep -v herokuproject &gt; requirements.txt
+<span class="nv">$ </span>git commit -a -m <span class="s2">&quot;added zodb support for heroku&quot;</span>
+</pre></div>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal">pip freeze</tt> command might send a warning looking like &quot;<em>Error when trying to get requirement for VCS system Command /usr/bin/git config remote.origin.url failed with error code 1 in /somepath/herokuproject, falling back to uneditable format</em>
+<em>Could not determine repository location of /somepath/herokuproject</em>&quot;.
+This is because we use git and pip is unable to determine what the
+public address of the repository is. This is not a problem, as we
+don't want it to add herokuproject to the requirements.txt
+file. You can safely ignore this warning.</p>
+</div>
+<p>All should be good, so I direct you back to the <a class="reference external" href="http://docs.pylonsproject.org/projects/pyramid_cookbook/en/latest/deployment/heroku.html">cookbook</a> to
+deploy. In short, you can run :</p>
+<div class="highlight"><pre><span class="nv">$ </span>git push heroku master
+<span class="nv">$ </span>heroku scale <span class="nv">web</span><span class="o">=</span>1
+</pre></div>
+</div>
+<div class="section" id="bonus-using-the-database-from-your-computer">
+<h2>BONUS : Using the database from your computer</h2>
+<p>At some point, you might want to manipulate the database directly. You
+could use the <tt class="docutils literal">heroku run</tt> command to run a pshell on the server,
+but that's not necessary, and that could be billed if you take too
+much time. Instead, you can connect to the database from your
+computer.</p>
+<p>For that, run <tt class="docutils literal">heroku config</tt>, and look for the <tt class="docutils literal">DATABASE_URL</tt>
+variable, which looks like
+<tt class="docutils literal"><span class="pre">postgres://something:somethingelse&#64;somehost.amazonaws.com:12345/somedb</span></tt>. Copy
+that variable, and set it as an environment variable locally by
+running</p>
+<div class="highlight"><pre><span class="nv">$ </span><span class="nb">export </span><span class="nv">DATABASE_URL</span><span class="o">=</span>postgres://something:somethingelse@somehost.amazonaws.com:12345/somedb
+</pre></div>
+<p>Now you can run <tt class="docutils literal">pshell production.ini</tt> and do whatever you want with
+the database.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>There, you have a working deployment on heroku of pyramid configured
+to use zodb. These instructions are for a new project, but they can easily
+be adapted for an existing project.</p>
+<p>The main point of this post, which is the modification in
+<tt class="docutils literal">__init.py__</tt> could easily be adapted to configure sqlalchemy for
+heroku.</p>
+<p>I hope this was helpful. If you have any comment to make about this,
+please do so. If nobody objects this method, I'll update the cookbook
+with the interesting part of this post.</p>
+<!-- Local Variables:
+mode: rst
+mode: auto-fill
+mode: flyspell
+ispell-local-dictionary: "english"
+End: -->
+</div>
+
+        </div><!-- /.entry-content -->
+        
+        <div class="comments">
+        <h2>Comments !</h2>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+               var disqus_identifier = "using-zodb-with-pyramid-on-heroku.html";
+               (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = 'http://compiletoi.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            </script>
+        </div>
+        
+
+</article>
+</section>
+
+        <section id="extras" class="body">
+        
+        
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href=".././" rel="alternate">atom feed</a></li>
+                            
+
+                        
+                            <li><a href="https://github.com/madjar">Github</a></li>
+                        
+                            <li><a href="http://twitter.com/georgesdubus">Twitter</a></li>
+                        
+                            <li><a href="https://plus.google.com/u/0/104750974388692229541">Google+</a></li>
+                        
+                        </ul>
+                </div><!-- /.social -->
+        
+        </section><!-- /#extras -->
+
+        
+
+
+    <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+    try {
+        var pageTracker = _gat._getTracker("UA-31800325-1");
+    pageTracker._trackPageview();
+    } catch(err) {}</script>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'compiletoi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+
+</body>
+</html>

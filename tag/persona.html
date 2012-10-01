@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Compile-toi toi même</title>
+        <title>Compile-toi toi même - persona</title>
         <meta charset="utf-8" />
-        <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
-        <link href="./" type="application/atom+xml" rel="alternate" title="Compile-toi toi même ATOM Feed" />
+        <link rel="stylesheet" href=".././theme/css/main.css" type="text/css" />
+        <link href=".././" type="application/atom+xml" rel="alternate" title="Compile-toi toi même ATOM Feed" />
         
 
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
         <!--[if lte IE 7]>
-                <link rel="stylesheet" type="text/css" media="all" href="./css/ie.css"/>
-                <script src="./js/IE8.js" type="text/javascript"></script><![endif]-->
+                <link rel="stylesheet" type="text/css" media="all" href=".././css/ie.css"/>
+                <script src=".././js/IE8.js" type="text/javascript"></script><![endif]-->
 
         <!--[if lt IE 7]>
-                <link rel="stylesheet" type="text/css" media="all" href="./css/ie6.css"/><![endif]-->
+                <link rel="stylesheet" type="text/css" media="all" href=".././css/ie6.css"/><![endif]-->
 
 </head>
 
 <body id="index" class="home">
 
         <header id="banner" class="body">
-                <h1><a href=".">Compile-toi toi même  <strong>(Georges Dubus)</strong></a></h1>
+                <h1><a href="../.">Compile-toi toi même  <strong>(Georges Dubus)</strong></a></h1>
                 <nav><ul>
                 
                     <li><a href="http://compiletoi.netarchives.html">Archives</a></li>
@@ -33,9 +33,9 @@
                 
                 
                 
-                    <li ><a href="./category/misc.html">misc</a></li>
+                    <li ><a href=".././category/misc.html">misc</a></li>
                 
-                    <li ><a href="./category/python.html">python</a></li>
+                    <li ><a href=".././category/python.html">python</a></li>
                 
                 </ul></nav>
         </header><!-- /#banner -->
@@ -47,15 +47,15 @@
         
             <aside id="featured" class="body">
                 <article class="mainarticle">
-                    <h1 class="entry-title"><a href="./quick-authentication-on-pyramid-with-persona.html">Quick authentication on pyramid with persona</a></h1>
+                    <h1 class="entry-title"><a href=".././quick-authentication-on-pyramid-with-persona.html">Quick authentication on pyramid with persona</a></h1>
                     <footer class="post-info">
         <abbr class="published" title="2012-09-01T15:30:00">
                 Sat 01 September 2012
         </abbr>
 
         
-<p>In <a href="./category/python.html">python</a>. </p>
-<p>tags: <a href="./tag/pyramid.html">pyramid</a><a href="./tag/persona.html">persona</a><a href="./tag/python.html">python</a></p>
+<p>In <a href=".././category/python.html">python</a>. </p>
+<p>tags: <a href=".././tag/pyramid.html">pyramid</a><a href=".././tag/persona.html">persona</a><a href=".././tag/python.html">python</a></p>
 
 
 </footer><!-- /.post-info --><p>A few days ago, the first beta of <a class="reference external" href="https://login.persona.org/">persona</a> was released, and I though
@@ -102,7 +102,7 @@ hello if we are logged in, and returns a 403 otherwise.</p>
     <span class="n">serve</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">)</span>
 </pre></div>
 <p>Of course, all we get is an error message:</p>
-<img alt="images/pyramid-persona/basic.png" src="static/images/pyramid-persona/basic.png" />
+<img alt="images/pyramid-persona/basic.png" src="../static/images/pyramid-persona/basic.png" />
 <p>Let's include <cite>pyramid_persona</cite> and add some settings. The secret is
 used to sign the cookies, and the audience is a security feature of
 persona, to prevent an attacker from logging into your website using
@@ -116,13 +116,13 @@ the login process from another website.</p>
 </pre></div>
 <p>We now have a login button on the forbidden page, and the login
 process works as expected.</p>
-<img alt="images/pyramid-persona/forbidden.png" src="static/images/pyramid-persona/forbidden.png" />
+<img alt="images/pyramid-persona/forbidden.png" src="../static/images/pyramid-persona/forbidden.png" />
 <p>Clicking on the login button opens the persona login form (in french
 for me, because I'm french).</p>
-<img alt="images/pyramid-persona/persona.png" src="static/images/pyramid-persona/persona.png" />
+<img alt="images/pyramid-persona/persona.png" src="../static/images/pyramid-persona/persona.png" />
 <p>Once it's done, we are logged in, the page is reloaded, and everything
 works as expected.</p>
-<img alt="images/pyramid-persona/logged_in.png" src="static/images/pyramid-persona/logged_in.png" />
+<img alt="images/pyramid-persona/logged_in.png" src="../static/images/pyramid-persona/logged_in.png" />
 </div>
 <div class="section" id="a-login-button">
 <h2>A login button</h2>
@@ -166,8 +166,8 @@ javascript needed to make persona work (it is provided by
 <cite>request.persona_js</cite>). We use <cite>request.persona_button</cite> which provides
 a simple login/logout button depending on whether the user is logged
 in. Here is the result :</p>
-<img alt="images/pyramid-persona/button_out.png" src="static/images/pyramid-persona/button_out.png" />
-<img alt="images/pyramid-persona/button_in.png" src="static/images/pyramid-persona/button_in.png" />
+<img alt="images/pyramid-persona/button_out.png" src="../static/images/pyramid-persona/button_out.png" />
+<img alt="images/pyramid-persona/button_in.png" src="../static/images/pyramid-persona/button_in.png" />
 <p>The button can of course be customized, as can the javascript if you
 want to more than just reload the page on login. For more on this,
 look at the README.</p>
@@ -185,58 +185,18 @@ mode: flyspell
 ispell-local-dictionary: "english"
 End: -->
 </div>
-<p>There are <a href="./quick-authentication-on-pyramid-with-persona.html#disqus_thread">comments</a>.</p>
+<p>There are <a href=".././quick-authentication-on-pyramid-with-persona.html#disqus_thread">comments</a>.</p>
                 </article>
+                
+                    
                 
             </aside><!-- /#featured -->
             
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                        <ol id="posts-list" class="hfeed">
-            
         
         
-        
-
-
-        
-        
-            
-            <li><article class="hentry">
-                <header>
-                        <h1><a href="./good-evening-ladies-and-gentlemen.html" rel="bookmark" title="Permalink to Good evening ladies and gentlemen, parlez vous français ?">Good evening ladies and gentlemen, parlez vous français ?</a></h1>
-                </header>
-
-                <div class="entry-content">
-                <footer class="post-info">
-        <abbr class="published" title="2012-06-03T17:20:00">
-                Sun 03 June 2012
-        </abbr>
-
-        
-<p>In <a href="./category/misc.html">misc</a>. </p>
-<p>tags: <a href="./tag/pelican.html">pelican</a><a href="./tag/emacs.html">emacs</a><a href="./tag/github.html">github</a><a href="./tag/blog.html">blog</a></p>
-
-
-</footer><!-- /.post-info -->
-                <p>Hi, I'm Georges Dubus, I'm a french PhD student doing some hacking on
-his free time, and here is my tentative of a blog.</p>
-<p>I have wanted to start a blog for a long time, but never really did it
-by lack of content idea, motivation, and platform ...</p>
-                <a class="readmore" href="./good-evening-ladies-and-gentlemen.html">read more</a>
-                <p>There are <a href="./good-evening-ladies-and-gentlemen.html#disqus_thread">comments</a>.</p>
-                </div><!-- /.entry-content -->
-            </article></li>
-        
-        
-            
         
 
     
-    </ol><!-- /#posts-list -->
-    </section><!-- /#content -->
-
 
 
         <section id="extras" class="body">
@@ -245,7 +205,7 @@ by lack of content idea, motivation, and platform ...</p>
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="./" rel="alternate">atom feed</a></li>
+                            <li><a href=".././" rel="alternate">atom feed</a></li>
                             
 
                         
