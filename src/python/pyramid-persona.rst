@@ -72,7 +72,7 @@ the login process from another website.
 
     settings = {
         'persona.secret': 'some secret',
-        'persona.audience': 'http://localhost:8080'
+        'persona.audiences': 'http://localhost:8080'
     }
     config = Configurator(settings=settings)
     config.include('pyramid_persona')
@@ -112,7 +112,7 @@ little :
 
 	settings = {
 	    'persona.secret': 'some secret',
-	    'persona.audience': 'http://localhost:8080',
+	    'persona.audiences': 'http://localhost:8080',
 	    'mako.directories': '.',  # Where to find the template file
 	}
 
