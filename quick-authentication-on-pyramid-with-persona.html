@@ -25,9 +25,9 @@
                 <h1><a href=".">Compile-toi toi même  <strong>(Georges Dubus)</strong></a></h1>
                 <nav><ul>
                 
-                    <li><a href="http://compiletoi.netarchives.html">Archives</a></li>
+                    <li><a href="http://compiletoi.net/archives.html">Archives</a></li>
                 
-                    <li><a href="http://compiletoi.nettags.html">Tags</a></li>
+                    <li><a href="http://compiletoi.net/tags.html">Tags</a></li>
                 
                 
                 
@@ -107,7 +107,7 @@ persona, to prevent an attacker from logging into your website using
 the login process from another website.</p>
 <div class="highlight"><pre><span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s">&#39;persona.secret&#39;</span><span class="p">:</span> <span class="s">&#39;some secret&#39;</span><span class="p">,</span>
-    <span class="s">&#39;persona.audience&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span>
+    <span class="s">&#39;persona.audiences&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span>
 <span class="p">}</span>
 <span class="n">config</span> <span class="o">=</span> <span class="n">Configurator</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">)</span>
 <span class="n">config</span><span class="o">.</span><span class="n">include</span><span class="p">(</span><span class="s">&#39;pyramid_persona&#39;</span><span class="p">)</span>
@@ -137,7 +137,7 @@ little :</p>
 
     <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s">&#39;persona.secret&#39;</span><span class="p">:</span> <span class="s">&#39;some secret&#39;</span><span class="p">,</span>
-        <span class="s">&#39;persona.audience&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span><span class="p">,</span>
+        <span class="s">&#39;persona.audiences&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span><span class="p">,</span>
         <span class="s">&#39;mako.directories&#39;</span><span class="p">:</span> <span class="s">&#39;.&#39;</span><span class="p">,</span>  <span class="c"># Where to find the template file</span>
     <span class="p">}</span>
 
