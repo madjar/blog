@@ -14,8 +14,8 @@ LOCALE = ('en_US.UTF-8', 'fr_FR.UTF8')
 THEME = 'stolenidea'
 
 MENUITEMS = (
-	('Archives', SITEURL + 'archives.html'),
-	('Tags', SITEURL + 'tags.html')
+	('Archives', SITEURL + '/archives.html'),
+	('Tags', SITEURL + '/tags.html')
 )
 
 # Blogroll
