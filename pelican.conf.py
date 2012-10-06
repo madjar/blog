@@ -5,6 +5,7 @@ AUTHOR = u"Georges Dubus"
 SITENAME = u"Compile-toi toi même"
 SITESUBTITLE = u"(Georges Dubus)"
 SITEURL = 'http://compiletoi.net'
+ABSOLUTE_SITEURL = SITEURL
 
 TIMEZONE = 'Europe/Paris'
 
