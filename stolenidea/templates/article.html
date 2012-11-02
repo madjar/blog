@@ -2,7 +2,7 @@
 {% block title %}{{ article.title }}{% endblock %}
 {% block extrahead %}
 <meta property="og:title" content="{{ article.title }}" />
-<meta property="og:description" content='{{ article.summary }}' />
+<meta property="og:description" content="{{ article.summary|escape }}" />
 <meta property="og:url" content="{{ ABSOLUTE_SITEURL }}/{{ article.url }}">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@georgesdubus" />
