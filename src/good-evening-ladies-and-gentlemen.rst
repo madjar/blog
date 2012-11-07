@@ -17,7 +17,7 @@ Creating the blog
 -----------------
 
 The blog generation engine I use is pelican_, which is written in
-python by Alexis Metereau. It's a nice, simple blog engine with posts
+python by Alexis Metaireau. It's a nice, simple blog engine with posts
 in rst_ and page templates in jinja2_. That way, I could
 create the layout with my usual IDE, PyCharm_, and I can edit posts
 with emacs_. The whole thing is hosted as static github pages.
