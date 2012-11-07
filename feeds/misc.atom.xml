@@ -9,7 +9,7 @@ few words about what to expect here in the future.&lt;/p&gt;
 &lt;div class="section" id="creating-the-blog"&gt;
 &lt;h2&gt;Creating the blog&lt;/h2&gt;
 &lt;p&gt;The blog generation engine I use is &lt;a class="reference external" href="http://pelican.notmyidea.org/"&gt;pelican&lt;/a&gt;, which is written in
-python by Alexis Metereau. It's a nice, simple blog engine with posts
+python by Alexis Metaireau. It's a nice, simple blog engine with posts
 in &lt;a class="reference external" href="http://docutils.sourceforge.net/rst.html"&gt;rst&lt;/a&gt; and page templates in &lt;a class="reference external" href="http://jinja.pocoo.org/"&gt;jinja2&lt;/a&gt;. That way, I could
 create the layout with my usual IDE, &lt;a class="reference external" href="http://www.jetbrains.com/pycharm/"&gt;PyCharm&lt;/a&gt;, and I can edit posts
 with &lt;a class="reference external" href="http://www.gnu.org/software/emacs/"&gt;emacs&lt;/a&gt;. The whole thing is hosted as static github pages.&lt;/p&gt;
