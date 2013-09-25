@@ -38,7 +38,7 @@ DEFAULT_PAGINATION = False
 
 
 PATH = ('src')
-FILES_TO_COPY = (('CNAME', 'CNAME'),)
+STATIC_PATH = ['CNAME']
 
 # TWITTER_USERNAME = 'georgesdubus'
 DISQUS_SITENAME = 'compiletoi'
