@@ -2,8 +2,8 @@
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/all-en.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2012-09-01T15:30:00+02:00</updated><entry><title>Quick authentication on pyramid with persona</title><link href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html" rel="alternate"></link><updated>2012-09-01T15:30:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2012-09-01:quick-authentication-on-pyramid-with-persona.html</id><summary type="html">&lt;p&gt;A few days ago, the first beta of &lt;a class="reference external" href="https://login.persona.org/"&gt;persona&lt;/a&gt; was released, and I thought
 it would be nice to try it as a authentication mechanism in my next
 project. For the pyramid framework, the persona documentation pointed
-to this blog post : &lt;cite&gt;Painless Authentication with Pyramid and
-BrowserID&lt;/cite&gt;, which describes how to use &lt;cite&gt;pyramid_whoauth&lt;/cite&gt; with
+to this blog post : &lt;a class="reference external" href="http://www.rfk.id.au/blog/entry/painless-auth-pyramid-browserid/"&gt;Painless Authentication with Pyramid and
+BrowserID&lt;/a&gt;, which describes how to use &lt;cite&gt;pyramid_whoauth&lt;/cite&gt; with
 &lt;cite&gt;repoze.who.plugins.browserid&lt;/cite&gt; to use persona in pyramid.&lt;/p&gt;
 &lt;p&gt;Sadly, this method only provides a special 403 page with a
 login button, and no obvious way to put a login button on another
