@@ -7,7 +7,7 @@ A few days ago, the first beta of persona_ was released, and I thought
 it would be nice to try it as a authentication mechanism in my next
 project. For the pyramid framework, the persona documentation pointed
 to this blog post : `Painless Authentication with Pyramid and
-BrowserID`, which describes how to use `pyramid_whoauth` with
+BrowserID`_, which describes how to use `pyramid_whoauth` with
 `repoze.who.plugins.browserid` to use persona in pyramid.
 
 Sadly, this method only provides a special 403 page with a
