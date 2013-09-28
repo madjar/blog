@@ -38,7 +38,7 @@ DEFAULT_PAGINATION = False
 
 
 PATH = ('src')
-STATIC_PATH = ['CNAME']
+STATIC_PATHS = ['CNAME']
 
 # TWITTER_USERNAME = 'georgesdubus'
 DISQUS_SITENAME = 'compiletoi'
