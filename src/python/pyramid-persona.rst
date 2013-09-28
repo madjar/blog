@@ -3,7 +3,7 @@ Quick authentication on pyramid with persona
 :date: 2012-09-01 15:30
 :tags: pyramid, persona, python
 
-A few days ago, the first beta of persona_ was released, and I though
+A few days ago, the first beta of persona_ was released, and I thought
 it would be nice to try it as a authentication mechanism in my next
 project. For the pyramid framework, the persona documentation pointed
 to this blog post : `Painless Authentication with Pyramid and
