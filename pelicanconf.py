@@ -36,7 +36,12 @@ SOCIAL = (
 DEFAULT_PAGINATION = 10                   # TODO: voir si je dois modifier quelque chose pour ça
 
 PATH = ('content')
-STATIC_PATHS = ['CNAME', 'images']
+STATIC_PATHS = ['CNAME', 'images', 'slides']
+ARTICLE_EXCLUDES = ['slides']
+
+# TODO : use buildout to handle the plugin deps ?
+PLUGIN_PATH = 'plugins'
+PLUGINS = ['pelican_youtube']
 
 
 # Uncomment following line if you want document-relative URLs when developing

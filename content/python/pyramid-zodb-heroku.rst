@@ -231,11 +231,3 @@ heroku.
 I hope this was helpful. If you have any comment to make about this,
 please do so. If nobody objects this method, I'll update the cookbook
 with the interesting part of this post.
-
-..
-  Local Variables:
-  mode: rst
-  mode: auto-fill
-  mode: flyspell
-  ispell-local-dictionary: "english"
-  End:

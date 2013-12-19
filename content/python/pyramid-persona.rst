@@ -61,7 +61,7 @@ hello if we are logged in, and returns a 403 otherwise.
 
 Of course, all we get is an error message:
 
-.. image:: images/pyramid-persona/basic.png
+.. image:: /images/pyramid-persona/basic.png
    :alt: Basic persona 403 page
 
 Let's include `pyramid_persona` and add some settings. The secret is
@@ -81,19 +81,19 @@ the login process from another website.
 We now have a login button on the forbidden page, and the login
 process works as expected.
 
-.. image:: images/pyramid-persona/forbidden.png
+.. image:: /images/pyramid-persona/forbidden.png
    :alt: Pyramid_persona's 403 page
 
 Clicking on the login button opens the persona login form (in french
 for me, because I'm french).
 
-.. image:: images/pyramid-persona/persona.png
+.. image:: /images/pyramid-persona/persona.png
    :alt: Persona's login popup
 
 Once it's done, we are logged in, the page is reloaded, and everything
 works as expected.
 
-.. image:: images/pyramid-persona/logged_in.png
+.. image:: /images/pyramid-persona/logged_in.png
    :alt: Logged-in page
 
 A login button
@@ -147,9 +147,9 @@ javascript needed to make persona work (it is provided by
 a simple login/logout button depending on whether the user is logged
 in. Here is the result :
 
-.. image:: images/pyramid-persona/button_out.png
+.. image:: /images/pyramid-persona/button_out.png
    :alt: Page with login button
-.. image:: images/pyramid-persona/button_in.png
+.. image:: /images/pyramid-persona/button_in.png
    :alt: Page with logout button
 
 The button can of course be customized, as can the javascript if you
@@ -165,11 +165,3 @@ pypi_, so it's pip installable. You can check the readme and the
 source on github_. Of course, issue reports and suggestions are welcome.
 
 .. _github: https://github.com/madjar/pyramid_persona
-
-..
-  Local Variables:
-  mode: rst
-  mode: auto-fill
-  mode: flyspell
-  ispell-local-dictionary: "english"
-  End:
