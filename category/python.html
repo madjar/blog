@@ -4,8 +4,7 @@
         <title>Compile-toi toi même - python</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="http://compiletoi.net/theme/css/main.css" type="text/css" />
-        <link href="http://compiletoi.net/" type="application/atom+xml" rel="alternate" title="Compile-toi toi même ATOM Feed" />
-
+        <link href="http://compiletoi.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Compile-toi toi même Atom Feed" />
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -21,8 +20,8 @@
         <header id="banner" class="body">
                 <h1><a href="http://compiletoi.net">Compile-toi toi même  <strong>(Georges Dubus)</strong></a></h1>
                 <nav><ul>
-                    <li><a href="http://compiletoi.net/archives.html">Archives</a></li>
-                    <li><a href="http://compiletoi.net/tags.html">Tags</a></li>
+                    <li><a href="/archives.html">Archives</a></li>
+                    <li><a href="/tags.html">Tags</a></li>
                     <li ><a href="http://compiletoi.net/category/misc.html">misc</a></li>
                     <li class="active"><a href="http://compiletoi.net/category/python.html">python</a></li>
                 </ul></nav>
@@ -81,7 +80,7 @@ hello if we are logged in, and returns a 403 otherwise.</p>
     <span class="n">serve</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">)</span>
 </pre></div>
 <p>Of course, all we get is an error message:</p>
-<img alt="" src="images/pyramid-persona/basic.png" />
+<img alt="Basic persona 403 page" src="images/pyramid-persona/basic.png" />
 <p>Let's include <cite>pyramid_persona</cite> and add some settings. The secret is
 used to sign the cookies, and the audience is a security feature of
 persona, to prevent an attacker from logging into your website using
@@ -95,13 +94,13 @@ the login process from another website.</p>
 </pre></div>
 <p>We now have a login button on the forbidden page, and the login
 process works as expected.</p>
-<img alt="" src="images/pyramid-persona/forbidden.png" />
+<img alt="Pyramid_persona's 403 page" src="images/pyramid-persona/forbidden.png" />
 <p>Clicking on the login button opens the persona login form (in french
 for me, because I'm french).</p>
-<img alt="" src="images/pyramid-persona/persona.png" />
+<img alt="Persona's login popup" src="images/pyramid-persona/persona.png" />
 <p>Once it's done, we are logged in, the page is reloaded, and everything
 works as expected.</p>
-<img alt="" src="images/pyramid-persona/logged_in.png" />
+<img alt="Logged-in page" src="images/pyramid-persona/logged_in.png" />
 </div>
 <div class="section" id="a-login-button">
 <h2>A login button</h2>
@@ -145,8 +144,8 @@ javascript needed to make persona work (it is provided by
 <cite>request.persona_js</cite>). We use <cite>request.persona_button</cite> which provides
 a simple login/logout button depending on whether the user is logged
 in. Here is the result :</p>
-<img alt="" src="images/pyramid-persona/button_out.png" />
-<img alt="" src="images/pyramid-persona/button_in.png" />
+<img alt="Page with login button" src="images/pyramid-persona/button_out.png" />
+<img alt="Page with logout button" src="images/pyramid-persona/button_in.png" />
 <p>The button can of course be customized, as can the javascript if you
 want to more than just reload the page on login. For more on this,
 look at the README.</p>
@@ -165,6 +164,9 @@ ispell-local-dictionary: "english"
 End: -->
 </div>
 <p>There are <a href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html#disqus_thread">comments</a>.</p>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
             </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="social">
