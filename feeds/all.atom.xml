@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/all.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2012-09-01T15:30:00+02:00</updated><entry><title>Quick authentication on pyramid with persona</title><link href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html" rel="alternate"></link><updated>2012-09-01T15:30:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2012-09-01:quick-authentication-on-pyramid-with-persona.html</id><summary type="html">&lt;p&gt;A few days ago, the first beta of &lt;a class="reference external" href="https://login.persona.org/"&gt;persona&lt;/a&gt; was released, and I thought
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/all.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2013-12-19T14:30:00+01:00</updated><entry><title>Pyramid advanced configuration tactics for nice apps and libs</title><link href="http://compiletoi.net/pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html" rel="alternate"></link><updated>2013-12-19T14:30:00+01:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2013-12-19:pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html</id><summary type="html">&lt;p&gt;Pyramid is a great framework, and one of the things that makes it
+great is its configuration system, which provide both a great way to
+organize an application, and an elegant system to write
+extensions.&lt;/p&gt;
+&lt;p&gt;This talk explain how the configuration system works and how
+to use it, then uses example from recognized projects to show how to
+make the most out of it, both for structuring applications and writing extensions.&lt;/p&gt;
+&lt;p&gt;This is a talk I gave last summer at the Europython, and I just
+realized it might be a good idea to post it here. The slides are
+available &lt;a class="reference external" href="/slides/europython2013-pyramid/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="youtube" align="center"&gt;&lt;iframe width="420" height="315" src="https://www.youtube.com/embed/VmfWkeUOuYY" frameborder="0"&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;div class="section" id="bonus-persona-will-save-the-world"&gt;
+&lt;h2&gt;Bonus: Persona will save the world&lt;/h2&gt;
+&lt;p&gt;I also did a lighting talk about persona (&lt;a class="reference external" href="/slides/europython2013-persona/"&gt;slides&lt;/a&gt;):&lt;/p&gt;
+&lt;div class="youtube" align="center"&gt;&lt;iframe width="420" height="315" src="https://www.youtube.com/embed/WyKhMggzDB8?starttime=3960" frameborder="0"&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/div&gt;
+</summary><category term="pyramid"></category><category term="python"></category></entry><entry><title>Quick authentication on pyramid with persona</title><link href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html" rel="alternate"></link><updated>2012-09-01T15:30:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2012-09-01:quick-authentication-on-pyramid-with-persona.html</id><summary type="html">&lt;p&gt;A few days ago, the first beta of &lt;a class="reference external" href="https://login.persona.org/"&gt;persona&lt;/a&gt; was released, and I thought
 it would be nice to try it as a authentication mechanism in my next
 project. For the pyramid framework, the persona documentation pointed
 to this blog post : &lt;a class="reference external" href="http://www.rfk.id.au/blog/entry/painless-auth-pyramid-browserid/"&gt;Painless Authentication with Pyramid and
@@ -43,7 +57,7 @@ hello if we are logged in, and returns a 403 otherwise.&lt;/p&gt;
     &lt;span class="n"&gt;serve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;0.0.0.0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Of course, all we get is an error message:&lt;/p&gt;
-&lt;img alt="Basic persona 403 page" src="images/pyramid-persona/basic.png" /&gt;
+&lt;img alt="Basic persona 403 page" src="/images/pyramid-persona/basic.png" /&gt;
 &lt;p&gt;Let's include &lt;cite&gt;pyramid_persona&lt;/cite&gt; and add some settings. The secret is
 used to sign the cookies, and the audience is a security feature of
 persona, to prevent an attacker from logging into your website using
@@ -57,13 +71,13 @@ the login process from another website.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;We now have a login button on the forbidden page, and the login
 process works as expected.&lt;/p&gt;
-&lt;img alt="Pyramid_persona's 403 page" src="images/pyramid-persona/forbidden.png" /&gt;
+&lt;img alt="Pyramid_persona's 403 page" src="/images/pyramid-persona/forbidden.png" /&gt;
 &lt;p&gt;Clicking on the login button opens the persona login form (in french
 for me, because I'm french).&lt;/p&gt;
-&lt;img alt="Persona's login popup" src="images/pyramid-persona/persona.png" /&gt;
+&lt;img alt="Persona's login popup" src="/images/pyramid-persona/persona.png" /&gt;
 &lt;p&gt;Once it's done, we are logged in, the page is reloaded, and everything
 works as expected.&lt;/p&gt;
-&lt;img alt="Logged-in page" src="images/pyramid-persona/logged_in.png" /&gt;
+&lt;img alt="Logged-in page" src="/images/pyramid-persona/logged_in.png" /&gt;
 &lt;/div&gt;
 &lt;div class="section" id="a-login-button"&gt;
 &lt;h2&gt;A login button&lt;/h2&gt;
@@ -107,8 +121,8 @@ javascript needed to make persona work (it is provided by
 &lt;cite&gt;request.persona_js&lt;/cite&gt;). We use &lt;cite&gt;request.persona_button&lt;/cite&gt; which provides
 a simple login/logout button depending on whether the user is logged
 in. Here is the result :&lt;/p&gt;
-&lt;img alt="Page with login button" src="images/pyramid-persona/button_out.png" /&gt;
-&lt;img alt="Page with logout button" src="images/pyramid-persona/button_in.png" /&gt;
+&lt;img alt="Page with login button" src="/images/pyramid-persona/button_out.png" /&gt;
+&lt;img alt="Page with logout button" src="/images/pyramid-persona/button_in.png" /&gt;
 &lt;p&gt;The button can of course be customized, as can the javascript if you
 want to more than just reload the page on login. For more on this,
 look at the README.&lt;/p&gt;
@@ -119,12 +133,6 @@ look at the README.&lt;/p&gt;
 that can be customized to grow with your app. It is available on
 &lt;a class="reference external" href="http://pypi.python.org/pypi/pyramid_persona"&gt;pypi&lt;/a&gt;, so it's pip installable. You can check the readme and the
 source on &lt;a class="reference external" href="https://github.com/madjar/pyramid_persona"&gt;github&lt;/a&gt;. Of course, issue reports and suggestions are welcome.&lt;/p&gt;
-&lt;!-- Local Variables:
-mode: rst
-mode: auto-fill
-mode: flyspell
-ispell-local-dictionary: "english"
-End: --&gt;
 &lt;/div&gt;
 </summary><category term="pyramid"></category><category term="persona"></category><category term="python"></category></entry><entry><title>Good evening ladies and gentlemen, parlez vous français ?</title><link href="http://compiletoi.net/good-evening-ladies-and-gentlemen.html" rel="alternate"></link><updated>2012-06-03T17:20:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2012-06-03:good-evening-ladies-and-gentlemen.html</id><summary type="html">&lt;p&gt;Hi, I'm Georges Dubus, I'm a french PhD student doing some hacking on
 his free time, and here is my tentative of a blog.&lt;/p&gt;

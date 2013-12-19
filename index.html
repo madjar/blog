@@ -29,146 +29,54 @@
 
             <aside id="featured" class="body">
                 <article class="mainarticle">
-                    <h1 class="entry-title"><a href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html">Quick authentication on pyramid with persona</a></h1>
+                    <h1 class="entry-title"><a href="http://compiletoi.net/pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html">Pyramid advanced configuration tactics for nice apps and libs</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2013-12-19T14:30:00">
+                Thu 19 December 2013
+        </abbr>
+
+<p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
+<p>tags: <a href="http://compiletoi.net/tag/pyramid.html">pyramid</a><a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info --><p>Pyramid is a great framework, and one of the things that makes it
+great is its configuration system, which provide both a great way to
+organize an application, and an elegant system to write
+extensions.</p>
+<p>This talk explain how the configuration system works and how
+to use it, then uses example from recognized projects to show how to
+make the most out of it, both for structuring applications and writing extensions.</p>
+<p>This is a talk I gave last summer at the Europython, and I just
+realized it might be a good idea to post it here. The slides are
+available <a class="reference external" href="/slides/europython2013-pyramid/">here</a>.</p>
+<div class="youtube" align="center"><iframe width="420" height="315" src="https://www.youtube.com/embed/VmfWkeUOuYY" frameborder="0"></iframe></div><div class="section" id="bonus-persona-will-save-the-world">
+<h2>Bonus: Persona will save the world</h2>
+<p>I also did a lighting talk about persona (<a class="reference external" href="/slides/europython2013-persona/">slides</a>):</p>
+<div class="youtube" align="center"><iframe width="420" height="315" src="https://www.youtube.com/embed/WyKhMggzDB8?starttime=3960" frameborder="0"></iframe></div></div>
+<p>There are <a href="http://compiletoi.net/pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                        <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                        <h1><a href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html" rel="bookmark" title="Permalink to Quick authentication on pyramid with persona">Quick authentication on pyramid with persona</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2012-09-01T15:30:00">
                 Sat 01 September 2012
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
-<p>tags: <a href="http://compiletoi.net/tag/pyramid.html">pyramid</a><a href="http://compiletoi.net/tag/persona.html">persona</a><a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info --><p>A few days ago, the first beta of <a class="reference external" href="https://login.persona.org/">persona</a> was released, and I thought
+<p>tags: <a href="http://compiletoi.net/tag/pyramid.html">pyramid</a><a href="http://compiletoi.net/tag/persona.html">persona</a><a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info -->                <p>A few days ago, the first beta of <a class="reference external" href="https://login.persona.org/">persona</a> was released, and I thought
 it would be nice to try it as a authentication mechanism in my next
 project. For the pyramid framework, the persona documentation pointed
 to this blog post : <a class="reference external" href="http://www.rfk.id.au/blog/entry/painless-auth-pyramid-browserid/">Painless Authentication with Pyramid and
-BrowserID</a>, which describes how to use <cite>pyramid_whoauth</cite> with
-<cite>repoze.who.plugins.browserid</cite> to use persona in pyramid.</p>
-<p>Sadly, this method only provides a special 403 page with a
-login button, and no obvious way to put a login button on another
-page. A quick look at the internals revealed it wouldn't be easy to do
-so, as most of the work is done inside a wsgi application. To have a
-login button, I would have to rewrite the generation of the javascript
-that communicates with the persona api, and probably most of the
-login code in order to keep the csrf verification.</p>
-<p>So, instead of re-implementing half of it and try to plugin it with
-existing implementation, I decided to rewrite it from scratch, and I
-though it would be nice to release it as a library. It's called
-<a class="reference external" href="https://github.com/madjar/pyramid_persona">pyramid_persona</a>, and it's available on <a class="reference external" href="http://pypi.python.org/pypi/pyramid_persona">pypi</a>. The README should
-explain how to use it, but here is a more visual demonstration.</p>
-<div class="section" id="the-forbidden-view">
-<h2>The forbidden view</h2>
-<p>First, let's show how to have it handle authentication and give us a nice
-forbidden view. Let's take a small application with a view that says
-hello if we are logged in, and returns a 403 otherwise.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">waitress</span> <span class="kn">import</span> <span class="n">serve</span>
-<span class="kn">from</span> <span class="nn">pyramid.config</span> <span class="kn">import</span> <span class="n">Configurator</span>
-<span class="kn">from</span> <span class="nn">pyramid.response</span> <span class="kn">import</span> <span class="n">Response</span>
-<span class="kn">from</span> <span class="nn">pyramid.security</span> <span class="kn">import</span> <span class="n">authenticated_userid</span>
-<span class="kn">from</span> <span class="nn">pyramid.exceptions</span> <span class="kn">import</span> <span class="n">Forbidden</span>
-
-<span class="k">def</span> <span class="nf">hello_world</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">userid</span> <span class="o">=</span> <span class="n">authenticated_userid</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">userid</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">Forbidden</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="s">&#39;Hello </span><span class="si">%s</span><span class="s">!&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">userid</span><span class="p">,))</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">Configurator</span><span class="p">()</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">add_route</span><span class="p">(</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="s">&#39;/&#39;</span><span class="p">)</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">hello_world</span><span class="p">,</span> <span class="n">route_name</span><span class="o">=</span><span class="s">&#39;hello&#39;</span><span class="p">)</span>
-    <span class="n">app</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">make_wsgi_app</span><span class="p">()</span>
-    <span class="n">serve</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">&#39;0.0.0.0&#39;</span><span class="p">)</span>
-</pre></div>
-<p>Of course, all we get is an error message:</p>
-<img alt="Basic persona 403 page" src="images/pyramid-persona/basic.png" />
-<p>Let's include <cite>pyramid_persona</cite> and add some settings. The secret is
-used to sign the cookies, and the audience is a security feature of
-persona, to prevent an attacker from logging into your website using
-the login process from another website.</p>
-<div class="highlight"><pre><span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">&#39;persona.secret&#39;</span><span class="p">:</span> <span class="s">&#39;some secret&#39;</span><span class="p">,</span>
-    <span class="s">&#39;persona.audiences&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span>
-<span class="p">}</span>
-<span class="n">config</span> <span class="o">=</span> <span class="n">Configurator</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">)</span>
-<span class="n">config</span><span class="o">.</span><span class="n">include</span><span class="p">(</span><span class="s">&#39;pyramid_persona&#39;</span><span class="p">)</span>
-</pre></div>
-<p>We now have a login button on the forbidden page, and the login
-process works as expected.</p>
-<img alt="Pyramid_persona's 403 page" src="images/pyramid-persona/forbidden.png" />
-<p>Clicking on the login button opens the persona login form (in french
-for me, because I'm french).</p>
-<img alt="Persona's login popup" src="images/pyramid-persona/persona.png" />
-<p>Once it's done, we are logged in, the page is reloaded, and everything
-works as expected.</p>
-<img alt="Logged-in page" src="images/pyramid-persona/logged_in.png" />
-</div>
-<div class="section" id="a-login-button">
-<h2>A login button</h2>
-<p>We just got a nice, nearly free login system. It would be even nicer
-to have login buttons on arbitrary pages.</p>
-<p>That won't be hard. There are some html involved, so let us create a
-template for this one. We change the view and the configuration a
-little :</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">hello_world</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">userid</span> <span class="o">=</span> <span class="n">authenticated_userid</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="n">userid</span><span class="p">}</span>
-
-<span class="c"># ...</span>
-
-    <span class="n">settings</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">&#39;persona.secret&#39;</span><span class="p">:</span> <span class="s">&#39;some secret&#39;</span><span class="p">,</span>
-        <span class="s">&#39;persona.audiences&#39;</span><span class="p">:</span> <span class="s">&#39;http://localhost:8080&#39;</span><span class="p">,</span>
-        <span class="s">&#39;mako.directories&#39;</span><span class="p">:</span> <span class="s">&#39;.&#39;</span><span class="p">,</span>  <span class="c"># Where to find the template file</span>
-    <span class="p">}</span>
-
-<span class="c"># ...</span>
-
-<span class="n">config</span><span class="o">.</span><span class="n">add_view</span><span class="p">(</span><span class="n">hello_world</span><span class="p">,</span> <span class="n">route_name</span><span class="o">=</span><span class="s">&#39;hello&#39;</span><span class="p">,</span> <span class="n">renderer</span><span class="o">=</span><span class="s">&#39;hello.mako&#39;</span><span class="p">)</span>
-</pre></div>
-<p>And we create a <cite>hello.mako</cite> file in the same directory :</p>
-<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;https://login.persona.org/include.js&quot;</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span><span class="nx">$</span><span class="p">{</span><span class="nx">request</span><span class="p">.</span><span class="nx">persona_js</span><span class="p">}</span><span class="nt">&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-<span class="nt">&lt;h1&gt;</span>Persona test page<span class="nt">&lt;/h1&gt;</span>
-Hello ${user}
-${request.persona_button}
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-<p>We need to include the persona api, jquery, and add a little bit of
-javascript needed to make persona work (it is provided by
-<cite>request.persona_js</cite>). We use <cite>request.persona_button</cite> which provides
-a simple login/logout button depending on whether the user is logged
-in. Here is the result :</p>
-<img alt="Page with login button" src="images/pyramid-persona/button_out.png" />
-<img alt="Page with logout button" src="images/pyramid-persona/button_in.png" />
-<p>The button can of course be customized, as can the javascript if you
-want to more than just reload the page on login. For more on this,
-look at the README.</p>
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion</h2>
-<p><cite>pyramid_persona</cite> provides a quick to setup authentication method,
-that can be customized to grow with your app. It is available on
-<a class="reference external" href="http://pypi.python.org/pypi/pyramid_persona">pypi</a>, so it's pip installable. You can check the readme and the
-source on <a class="reference external" href="https://github.com/madjar/pyramid_persona">github</a>. Of course, issue reports and suggestions are welcome.</p>
-<!-- Local Variables:
-mode: rst
-mode: auto-fill
-mode: flyspell
-ispell-local-dictionary: "english"
-End: -->
-</div>
-<p>There are <a href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                        <ol id="posts-list" class="hfeed">
+BrowserID</a>, which describes how ...</p>
+                <a class="readmore" href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html">read more</a>
+<p>There are <a href="http://compiletoi.net/quick-authentication-on-pyramid-with-persona.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
