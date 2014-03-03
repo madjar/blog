@@ -1,10 +1,9 @@
-Fast scrapping in python with asyncio
-=====================================
+Fast scraping in python with asyncio
+====================================
 :date: 2014-03-02 17:50
 :tags: python
-:status: draft
 
-Web scrapping is one of those subjects that appears often in python
+Web scraping is one of those subjects that often appears in python
 discussions. There are many ways to do this, and there doesn't seem to
 be one best way. There are fully fledged frameworks like scrapy_ and more
 lightweight libraries like mechanize_. Do-it-yourself solutions are
@@ -17,13 +16,13 @@ beautifulsoup_ or pyquery_.
 .. _beautifulsoup: http://www.crummy.com/software/BeautifulSoup/
 .. _pyquery: http://pythonhosted.org/pyquery/
 
-The reason for this diversity is that "scrapping" actually covers
+The reason for this diversity is that "scraping" actually covers
 multiple problems: you don't need to same tool to extract data from
-hundreds of pages and to automate some web workflow. I like the
-do-it-yourself approach because it's flexible, but it's not
-well-suited for massive data extraction, because `requests` does
-requests in a synchronous way, and many requests means you have to
-wait a long time.
+hundreds of pages and to automate some web workflow (like filling a
+few forms and getting some data back). I like the do-it-yourself
+approach because it's flexible, but it's not well-suited for massive
+data extraction, because `requests` does requests synchronously, and
+many requests means you have to wait a long time.
 
 In this blog post, I'll present you an alternative to `requests` based
 on the new asyncio library : aiohttp_. I use it to write small
@@ -62,7 +61,7 @@ are some very useful examples_. We'll first show its basic usage.
 
 .. _examples: https://github.com/KeepSafe/aiohttp/tree/master/examples
 
-We'll define a coroutine to get a page and print it. We use
+First, we'll define a coroutine to get a page and print it. We use
 ``asyncio.coroutine`` to decorate a function as a
 coroutine. ``aiohttp.request`` is a coroutine, and so is the ``read``
 method, so we'll need to use ``yield from`` to call them. Apart from
@@ -97,12 +96,12 @@ and returns a single coroutine that wrap them all, so we can write:
                                         print_page('http://example.com/bar')]))
 
 Another one is ``asyncio.as_completed``, that takes a list of coroutines
-and returns a iterator that yield the coroutines in the order in which
+and returns an iterator that yield the coroutines in the order in which
 they are completed, so that when you iterate on it, you get each
 result as soon as it's available.
 
-Scrapping
----------
+Scraping
+--------
 
 Now that we know how to do asynchronous HTTP requests, we can write a
 scrapper. The only other part we need is something to read the html. I
@@ -113,7 +112,7 @@ use beautifulsoup_ for that, be others like pyquery_ or lxml_.
 For this example, we'll write a small scrapper to get the torrent
 links for various linux distributions from the pirate bay.
 
-First of all, an helper coroutine to do get requests:
+First of all, a helper coroutine to do get requests:
 
 .. code-block:: python
 
@@ -190,11 +189,10 @@ from the website.
 To avoid this, you can use a semaphore_. It is a synchronization tool
 that can be used to limit the number of coroutines that do something
 at some point. We'll just create the semaphore before creating the
-loop, passing as a argument the number of simultaneous requests we
+loop, passing as an argument the number of simultaneous requests we
 want to allow:
 
 .. code-block:: python
-
 
   sem = asyncio.Semaphore(5)
 
