@@ -1,5 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/all.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2013-12-19T14:30:00+01:00</updated><entry><title>Pyramid advanced configuration tactics for nice apps and libs</title><link href="http://compiletoi.net/pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html" rel="alternate"></link><updated>2013-12-19T14:30:00+01:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2013-12-19:pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html</id><summary type="html">&lt;p&gt;Pyramid is a great framework, and one of the things that makes it
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/all.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-03-02T17:50:00+01:00</updated><entry><title>Fast scraping in python with asyncio</title><link href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html" rel="alternate"></link><updated>2014-03-02T17:50:00+01:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-03-02:fast-scraping-in-python-with-asyncio.html</id><summary type="html">&lt;p&gt;Web scraping is one of those subjects that often appears in python
+discussions. There are many ways to do this, and there doesn't seem to
+be one best way. There are fully fledged frameworks like &lt;a class="reference external" href="http://scrapy.org"&gt;scrapy&lt;/a&gt; and more
+lightweight libraries like &lt;a class="reference external" href="http://wwwsearch.sourceforge.net/mechanize/"&gt;mechanize&lt;/a&gt;. Do-it-yourself solutions are
+also popular: one can go a long way by using &lt;a class="reference external" href="http://python-requests.org/"&gt;requests&lt;/a&gt; and
+&lt;a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/"&gt;beautifulsoup&lt;/a&gt; or &lt;a class="reference external" href="http://pythonhosted.org/pyquery/"&gt;pyquery&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The reason for this diversity is that &amp;quot;scraping&amp;quot; actually covers
+multiple problems: you don't need to same tool to extract data from
+hundreds of pages and to automate some web workflow (like filling a
+few forms and getting some data back). I like the do-it-yourself
+approach because it's flexible, but it's not well-suited for massive
+data extraction, because &lt;cite&gt;requests&lt;/cite&gt; does requests synchronously, and
+many requests means you have to wait a long time.&lt;/p&gt;
+&lt;p&gt;In this blog post, I'll present you an alternative to &lt;cite&gt;requests&lt;/cite&gt; based
+on the new asyncio library : &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp"&gt;aiohttp&lt;/a&gt;. I use it to write small
+scrapper that are really fast, and I'll show you how.&lt;/p&gt;
+&lt;div class="section" id="basics-of-asyncio"&gt;
+&lt;h2&gt;Basics of asyncio&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html"&gt;asyncio&lt;/a&gt; is the asynchronous IO library that was introduced in python
+3.4. You can also get it from pypi on python 3.3. It's quite complex
+and I won't go too much into details. Instead, I'll explain what you
+need to know to write asynchronous code with it. If you want to know
+more about, I invite you to read its documentation.&lt;/p&gt;
+&lt;p&gt;To make it simple, there are two things you need to know about :
+coroutines and event loops. Coroutines are like functions, but they can
+be suspended or resume at certain points in the code. This is used to
+pause a coroutine while it waits for an IO (an HTTP request, for
+example) and execute another one in the meantime. We use the &lt;tt class="docutils literal"&gt;yield
+from&lt;/tt&gt; keyword to state that we want the return value of a
+coroutine. An event loop is used orchestrate the execution of the coroutines.&lt;/p&gt;
+&lt;p&gt;There is much more to asyncio, but that's all we need to know for
+now. It might be a little unclear from know, so let's look at some code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;aiohttp&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp"&gt;aiohttp&lt;/a&gt; is a library designed to work with asyncio, with an API that
+looks like requests'. It's not very well documented for now, but there
+are some very useful &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples"&gt;examples&lt;/a&gt;. We'll first show its basic usage.&lt;/p&gt;
+&lt;p&gt;First, we'll define a coroutine to get a page and print it. We use
+&lt;tt class="docutils literal"&gt;asyncio.coroutine&lt;/tt&gt; to decorate a function as a
+coroutine. &lt;tt class="docutils literal"&gt;aiohttp.request&lt;/tt&gt; is a coroutine, and so is the &lt;tt class="docutils literal"&gt;read&lt;/tt&gt;
+method, so we'll need to use &lt;tt class="docutils literal"&gt;yield from&lt;/tt&gt; to call them. Apart from
+that, the code looks pretty straightforward:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;aiohttp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_and_close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;As we have seen, we can call a coroutine from another coroutine with
+&lt;tt class="docutils literal"&gt;yield from&lt;/tt&gt;. To call a coroutine from synchronous code, we'll need an
+event loop. We can get the standard one with
+&lt;tt class="docutils literal"&gt;asyncio.get_event_loop()&lt;/tt&gt; and run the coroutine on it using its
+&lt;tt class="docutils literal"&gt;run_until_complete()&lt;/tt&gt; method. So, all we have to do to run the
+previous coroutine is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;loop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_event_loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;print_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;http://example.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;A useful function is &lt;tt class="docutils literal"&gt;asyncio.wait&lt;/tt&gt;, which takes a list a coroutines
+and returns a single coroutine that wrap them all, so we can write:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;print_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;http://example.com/foo&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+                                      &lt;span class="n"&gt;print_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;http://example.com/bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Another one is &lt;tt class="docutils literal"&gt;asyncio.as_completed&lt;/tt&gt;, that takes a list of coroutines
+and returns an iterator that yield the coroutines in the order in which
+they are completed, so that when you iterate on it, you get each
+result as soon as it's available.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="scraping"&gt;
+&lt;h2&gt;Scraping&lt;/h2&gt;
+&lt;p&gt;Now that we know how to do asynchronous HTTP requests, we can write a
+scrapper. The only other part we need is something to read the html. I
+use &lt;a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/"&gt;beautifulsoup&lt;/a&gt; for that, be others like &lt;a class="reference external" href="http://pythonhosted.org/pyquery/"&gt;pyquery&lt;/a&gt; or &lt;a class="reference external" href="http://lxml.de/"&gt;lxml&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For this example, we'll write a small scrapper to get the torrent
+links for various linux distributions from the pirate bay.&lt;/p&gt;
+&lt;p&gt;First of all, a helper coroutine to do get requests:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;aiohttp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_and_close&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The parsing part. This post is not about beautifulsoup, so I'll keep
+it dumb and simple: we get the first magnet list of the page:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;first_magnet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;soup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bs4&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;BeautifulSoup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;soup&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Download this torrent using magnet&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;href&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The coroutine. With this url, results are sorted by number of seeders,
+so the first result is actually the most seeded:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_magnet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://thepiratebay.se/search/{}/0/7/0&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;magnet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first_magnet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;{}: {}&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;magnet&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Finally, the code to call all of this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;distros&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;archlinux&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;ubuntu&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;debian&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;loop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_event_loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;wait&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;print_magnet&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;distros&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;loop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run_until_complete&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;And there you go, you have a small scrapper that works
+asynchronously. That means the various pages are being downloaded at
+the same time, so this example is 3 times faster than the same code
+with &lt;cite&gt;requests&lt;/cite&gt;. You should now be able to write your own scrappers in
+the same way.&lt;/p&gt;
+&lt;p&gt;You can find the resulting code, including the bonus tracks, in this
+&lt;a class="reference external" href="https://gist.github.com/madjar/9312452"&gt;gist&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once you are comfortable with all this, I recommend you take a look at
+&lt;a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html"&gt;asyncio&lt;/a&gt;'s documentation and aiohttp &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples"&gt;examples&lt;/a&gt;, which will show you
+all the potential asyncio have.&lt;/p&gt;
+&lt;p&gt;One limitation of this approach (in fact, any hand-made approach) is
+that there doesn't seem to be a standalone library to handle
+forms. Mechanize and scrapy have nice helpers to easily submit forms,
+but if you don't use them, you'll have to do it yourself. This is
+something that bugs be, so I might write such a library at some point
+(but don't count on it for now).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="bonus-track-don-t-hammer-the-server"&gt;
+&lt;h2&gt;Bonus track: don't hammer the server&lt;/h2&gt;
+&lt;p&gt;Doing 3 requests at the same time is cool, doing 5000, however, is not
+so nice. If you try to do too many requests at the same time,
+connections might start to get closed, or you might even get banned
+from the website.&lt;/p&gt;
+&lt;p&gt;To avoid this, you can use a &lt;a class="reference external" href="http://docs.python.org/3.4/library/asyncio-sync.html#semaphores"&gt;semaphore&lt;/a&gt;. It is a synchronization tool
+that can be used to limit the number of coroutines that do something
+at some point. We'll just create the semaphore before creating the
+loop, passing as an argument the number of simultaneous requests we
+want to allow:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;sem&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Semaphore&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then, we just replace:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;by the same thing, but protected by a semaphore:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;sem&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;compress&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;This will ensure that at most 5 requests can be done at the same time.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="bonus-track-progress-bar"&gt;
+&lt;h2&gt;Bonus track: progress bar&lt;/h2&gt;
+&lt;p&gt;This one is just for free: &lt;a class="reference external" href="https://github.com/noamraph/tqdm"&gt;tqdm&lt;/a&gt; is a nice library to make progress
+bars. This coroutine works just like &lt;tt class="docutils literal"&gt;asyncio.wait&lt;/tt&gt;, but displays a
+progress bar indicating the completion of the coroutines passed to
+it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;wait_with_progress&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coros&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;tqdm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tqdm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;asyncio&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;as_completed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coros&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coros&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+        &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+</summary><category term="python"></category></entry><entry><title>Pyramid advanced configuration tactics for nice apps and libs</title><link href="http://compiletoi.net/pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html" rel="alternate"></link><updated>2013-12-19T14:30:00+01:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2013-12-19:pyramid-advanced-configuration-tactics-for-nice-apps-and-libs.html</id><summary type="html">&lt;p&gt;Pyramid is a great framework, and one of the things that makes it
 great is its configuration system, which provide both a great way to
 organize an application, and an elegant system to write
 extensions.&lt;/p&gt;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Fast scrapping in python with asyncio</title>
+        <title>Fast scraping in python with asyncio</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="http://compiletoi.net/theme/css/main.css" type="text/css" />
         <link href="http://compiletoi.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Compile-toi toi même Atom Feed" />
@@ -14,13 +14,13 @@
 
         <!--[if lt IE 7]>
                 <link rel="stylesheet" type="text/css" media="all" href="http://compiletoi.net/css/ie6.css"/><![endif]-->
-<meta property="og:title" content="Fast scrapping in python with asyncio" />
-<meta property="og:description" content="&lt;p&gt;Web scrapping is one of those subjects that appears often in python
+<meta property="og:title" content="Fast scraping in python with asyncio" />
+<meta property="og:description" content="&lt;p&gt;Web scraping is one of those subjects that often appears in python
 discussions. There are many ways to do this, and there doesn&#39;t seem to
 be one best way. There are fully fledged frameworks like &lt;a class=&#34;reference external&#34; href=&#34;http://scrapy.org&#34;&gt;scrapy&lt;/a&gt; and more
 lightweight libraries like &lt;a class=&#34;reference external&#34; href=&#34;http://wwwsearch.sourceforge.net/mechanize/&#34;&gt;mechanize&lt;/a&gt;. Do-it-yourself solutions are
 also popular: one can ...&lt;/p&gt;" />
-<meta property="og:url" content="http://compiletoi.net/fast-scrapping-in-python-with-asyncio.html">
+<meta property="og:url" content="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@georgesdubus" />
 </head>
@@ -38,8 +38,8 @@ also popular: one can ...&lt;/p&gt;" />
 
 <section id="content" class="body">
 <article class="mainarticle">
-        <header> <h1 class="entry-title"><a href="fast-scrapping-in-python-with-asyncio.html"
-        rel="bookmark" title="Permalink to Fast scrapping in python with asyncio">Fast scrapping in python with asyncio</a></h1>  </header>
+        <header> <h1 class="entry-title"><a href="fast-scraping-in-python-with-asyncio.html"
+        rel="bookmark" title="Permalink to Fast scraping in python with asyncio">Fast scraping in python with asyncio</a></h1>  </header>
         <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-03-02T17:50:00">
@@ -47,19 +47,19 @@ also popular: one can ...&lt;/p&gt;" />
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
-<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info -->        <p>Web scrapping is one of those subjects that appears often in python
+<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info -->        <p>Web scraping is one of those subjects that often appears in python
 discussions. There are many ways to do this, and there doesn't seem to
 be one best way. There are fully fledged frameworks like <a class="reference external" href="http://scrapy.org">scrapy</a> and more
 lightweight libraries like <a class="reference external" href="http://wwwsearch.sourceforge.net/mechanize/">mechanize</a>. Do-it-yourself solutions are
 also popular: one can go a long way by using <a class="reference external" href="http://python-requests.org/">requests</a> and
 <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> or <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a>.</p>
-<p>The reason for this diversity is that &quot;scrapping&quot; actually covers
+<p>The reason for this diversity is that &quot;scraping&quot; actually covers
 multiple problems: you don't need to same tool to extract data from
-hundreds of pages and to automate some web workflow. I like the
-do-it-yourself approach because it's flexible, but it's not
-well-suited for massive data extraction, because <cite>requests</cite> does
-requests in a synchronous way, and many requests means you have to
-wait a long time.</p>
+hundreds of pages and to automate some web workflow (like filling a
+few forms and getting some data back). I like the do-it-yourself
+approach because it's flexible, but it's not well-suited for massive
+data extraction, because <cite>requests</cite> does requests synchronously, and
+many requests means you have to wait a long time.</p>
 <p>In this blog post, I'll present you an alternative to <cite>requests</cite> based
 on the new asyncio library : <a class="reference external" href="https://github.com/KeepSafe/aiohttp">aiohttp</a>. I use it to write small
 scrapper that are really fast, and I'll show you how.</p>
@@ -85,7 +85,7 @@ now. It might be a little unclear from know, so let's look at some code.</p>
 <p><a class="reference external" href="https://github.com/KeepSafe/aiohttp">aiohttp</a> is a library designed to work with asyncio, with an API that
 looks like requests'. It's not very well documented for now, but there
 are some very useful <a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples">examples</a>. We'll first show its basic usage.</p>
-<p>We'll define a coroutine to get a page and print it. We use
+<p>First, we'll define a coroutine to get a page and print it. We use
 <tt class="docutils literal">asyncio.coroutine</tt> to decorate a function as a
 coroutine. <tt class="docutils literal">aiohttp.request</tt> is a coroutine, and so is the <tt class="docutils literal">read</tt>
 method, so we'll need to use <tt class="docutils literal">yield from</tt> to call them. Apart from
@@ -111,18 +111,18 @@ and returns a single coroutine that wrap them all, so we can write:</p>
                                       <span class="n">print_page</span><span class="p">(</span><span class="s">&#39;http://example.com/bar&#39;</span><span class="p">)]))</span>
 </pre></div>
 <p>Another one is <tt class="docutils literal">asyncio.as_completed</tt>, that takes a list of coroutines
-and returns a iterator that yield the coroutines in the order in which
+and returns an iterator that yield the coroutines in the order in which
 they are completed, so that when you iterate on it, you get each
 result as soon as it's available.</p>
 </div>
-<div class="section" id="scrapping">
-<h2>Scrapping</h2>
+<div class="section" id="scraping">
+<h2>Scraping</h2>
 <p>Now that we know how to do asynchronous HTTP requests, we can write a
 scrapper. The only other part we need is something to read the html. I
 use <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> for that, be others like <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a> or <a class="reference external" href="http://lxml.de/">lxml</a>.</p>
 <p>For this example, we'll write a small scrapper to get the torrent
 links for various linux distributions from the pirate bay.</p>
-<p>First of all, an helper coroutine to do get requests:</p>
+<p>First of all, a helper coroutine to do get requests:</p>
 <div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">response</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -179,7 +179,7 @@ from the website.</p>
 <p>To avoid this, you can use a <a class="reference external" href="http://docs.python.org/3.4/library/asyncio-sync.html#semaphores">semaphore</a>. It is a synchronization tool
 that can be used to limit the number of coroutines that do something
 at some point. We'll just create the semaphore before creating the
-loop, passing as a argument the number of simultaneous requests we
+loop, passing as an argument the number of simultaneous requests we
 want to allow:</p>
 <div class="highlight"><pre><span class="n">sem</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -210,7 +210,7 @@ it:</p>
         <h2>Comments !</h2>
             <div id="disqus_thread"></div>
             <script type="text/javascript">
-               var disqus_identifier = "fast-scrapping-in-python-with-asyncio.html";
+               var disqus_identifier = "fast-scraping-in-python-with-asyncio.html";
                (function() {
                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                dsq.src = 'http://compiletoi.disqus.com/embed.js';
