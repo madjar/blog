@@ -62,7 +62,7 @@ data extraction, because <cite>requests</cite> does requests synchronously, and
 many requests means you have to wait a long time.</p>
 <p>In this blog post, I'll present you an alternative to <cite>requests</cite> based
 on the new asyncio library : <a class="reference external" href="https://github.com/KeepSafe/aiohttp">aiohttp</a>. I use it to write small
-scrapper that are really fast, and I'll show you how.</p>
+scraper that are really fast, and I'll show you how.</p>
 <div class="section" id="basics-of-asyncio">
 <h2>Basics of asyncio</h2>
 <p><a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html">asyncio</a> is the asynchronous IO library that was introduced in python
@@ -118,9 +118,9 @@ result as soon as it's available.</p>
 <div class="section" id="scraping">
 <h2>Scraping</h2>
 <p>Now that we know how to do asynchronous HTTP requests, we can write a
-scrapper. The only other part we need is something to read the html. I
+scraper. The only other part we need is something to read the html. I
 use <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> for that, be others like <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a> or <a class="reference external" href="http://lxml.de/">lxml</a>.</p>
-<p>For this example, we'll write a small scrapper to get the torrent
+<p>For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.</p>
 <p>First of all, a helper coroutine to do get requests:</p>
 <div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
@@ -153,10 +153,10 @@ so the first result is actually the most seeded:</p>
 </div>
 <div class="section" id="conclusion">
 <h2>Conclusion</h2>
-<p>And there you go, you have a small scrapper that works
+<p>And there you go, you have a small scraper that works
 asynchronously. That means the various pages are being downloaded at
 the same time, so this example is 3 times faster than the same code
-with <cite>requests</cite>. You should now be able to write your own scrappers in
+with <cite>requests</cite>. You should now be able to write your own scrapers in
 the same way.</p>
 <p>You can find the resulting code, including the bonus tracks, in this
 <a class="reference external" href="https://gist.github.com/madjar/9312452">gist</a>.</p>

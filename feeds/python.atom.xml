@@ -14,7 +14,7 @@ data extraction, because &lt;cite&gt;requests&lt;/cite&gt; does requests synchro
 many requests means you have to wait a long time.&lt;/p&gt;
 &lt;p&gt;In this blog post, I'll present you an alternative to &lt;cite&gt;requests&lt;/cite&gt; based
 on the new asyncio library : &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp"&gt;aiohttp&lt;/a&gt;. I use it to write small
-scrapper that are really fast, and I'll show you how.&lt;/p&gt;
+scraper that are really fast, and I'll show you how.&lt;/p&gt;
 &lt;div class="section" id="basics-of-asyncio"&gt;
 &lt;h2&gt;Basics of asyncio&lt;/h2&gt;
 &lt;p&gt;&lt;a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html"&gt;asyncio&lt;/a&gt; is the asynchronous IO library that was introduced in python
@@ -70,9 +70,9 @@ result as soon as it's available.&lt;/p&gt;
 &lt;div class="section" id="scraping"&gt;
 &lt;h2&gt;Scraping&lt;/h2&gt;
 &lt;p&gt;Now that we know how to do asynchronous HTTP requests, we can write a
-scrapper. The only other part we need is something to read the html. I
+scraper. The only other part we need is something to read the html. I
 use &lt;a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/"&gt;beautifulsoup&lt;/a&gt; for that, be others like &lt;a class="reference external" href="http://pythonhosted.org/pyquery/"&gt;pyquery&lt;/a&gt; or &lt;a class="reference external" href="http://lxml.de/"&gt;lxml&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For this example, we'll write a small scrapper to get the torrent
+&lt;p&gt;For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.&lt;/p&gt;
 &lt;p&gt;First of all, a helper coroutine to do get requests:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
@@ -105,10 +105,10 @@ so the first result is actually the most seeded:&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;And there you go, you have a small scrapper that works
+&lt;p&gt;And there you go, you have a small scraper that works
 asynchronously. That means the various pages are being downloaded at
 the same time, so this example is 3 times faster than the same code
-with &lt;cite&gt;requests&lt;/cite&gt;. You should now be able to write your own scrappers in
+with &lt;cite&gt;requests&lt;/cite&gt;. You should now be able to write your own scrapers in
 the same way.&lt;/p&gt;
 &lt;p&gt;You can find the resulting code, including the bonus tracks, in this
 &lt;a class="reference external" href="https://gist.github.com/madjar/9312452"&gt;gist&lt;/a&gt;.&lt;/p&gt;
