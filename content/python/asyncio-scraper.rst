@@ -26,7 +26,7 @@ many requests means you have to wait a long time.
 
 In this blog post, I'll present you an alternative to `requests` based
 on the new asyncio library : aiohttp_. I use it to write small
-scrapper that are really fast, and I'll show you how.
+scraper that are really fast, and I'll show you how.
 
 .. _aiohttp: https://github.com/KeepSafe/aiohttp
 
@@ -104,12 +104,12 @@ Scraping
 --------
 
 Now that we know how to do asynchronous HTTP requests, we can write a
-scrapper. The only other part we need is something to read the html. I
+scraper. The only other part we need is something to read the html. I
 use beautifulsoup_ for that, be others like pyquery_ or lxml_.
 
 .. _lxml: http://lxml.de/
 
-For this example, we'll write a small scrapper to get the torrent
+For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.
 
 First of all, a helper coroutine to do get requests:
@@ -156,10 +156,10 @@ Finally, the code to call all of this:
 Conclusion
 ----------
 
-And there you go, you have a small scrapper that works
+And there you go, you have a small scraper that works
 asynchronously. That means the various pages are being downloaded at
 the same time, so this example is 3 times faster than the same code
-with `requests`. You should now be able to write your own scrappers in
+with `requests`. You should now be able to write your own scrapers in
 the same way.
 
 You can find the resulting code, including the bonus tracks, in this
