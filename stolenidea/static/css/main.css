@@ -18,7 +18,7 @@ body {
     background: #D9C7B6;
     background-image: url(../images/white_wall.png);
     color: #0c0c19;
-    font-size: 87.5%; /* Base font size: 14px */
+    font-size: 100%; /* Base font size: 14px */
     font-family: 'Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     line-height: 1.429;
     margin: 0;
@@ -102,7 +102,7 @@ dl {margin: 0 0 1.5em 0;}
 dt {font-weight: bold;}
 dd {margin-left: 1.5em;}
 
-pre{background-color: #000; padding: 10px; color: #fff; margin: 10px; overflow: auto;}
+pre{background-color: #eee; padding: 10px; color: #000; margin: 10px; overflow: auto; font-size: 110%;}
 
 /* Quotes */
 blockquote {
