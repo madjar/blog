@@ -7,5 +7,6 @@
     try {
         var pageTracker = _gat._getTracker("{{GOOGLE_ANALYTICS}}");
     pageTracker._trackPageview();
+    setTimeout("pageTracker._trackEvent('1_minute', 'read')",60000);
     } catch(err) {}</script>
 {% endif %}

@@ -36,7 +36,7 @@ SOCIAL = (
 DEFAULT_PAGINATION = 10                   # TODO: voir si je dois modifier quelque chose pour ça
 
 PATH = ('content')
-STATIC_PATHS = ['CNAME', 'images', 'slides']
+STATIC_PATHS = ['CNAME', 'images', 'slides', '.well-known']
 ARTICLE_EXCLUDES = ['slides']
 
 # TODO : use buildout to handle the plugin deps ?
