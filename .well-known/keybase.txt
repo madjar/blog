@@ -1,0 +1,66 @@
+==================================================================
+https://keybase.io/georges
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://compiletoi.net
+  * I am georges (https://keybase.io/georges) on keybase.
+  * I have a public key with fingerprint F683 691F D4AE A070 B860  077A D62C 17B1 0DE2 67C2
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "f683691fd4aea070b860077ad62c17b10de267c2",
+            "host": "keybase.io",
+            "key_id": "d62c17b10de267c2",
+            "uid": "e335a4ca5fa68b8c9eca0cbb7f7f5900",
+            "username": "georges"
+        },
+        "service": {
+            "hostname": "compiletoi.net",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1397917670,
+    "expire_in": 157680000,
+    "prev": "1e5bb23002bf551a9bd4990d1072f6f9333e66111ce0246febfa0a2a572ef9c4",
+    "seqno": 11,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v0.1.8
+Comment: https://keybase.io/crypto
+
+yMH0AnicbZFvSBRpHMd3zT+46mURx3FKwnBl4GLPzOzM7CyhnPjCvTTOjoUEY3me
+mWfWcd2ZdXZWXVblDuQ88SCQE0820CgPiUI5ItCSldoItSO5q02pID23EKoXipxH
+L/IZsXc9b4bn+/t8v99n+KWKDtkc9py+2eDFQtVnX5rfjtp+ON//Ok4hXY5RnjgV
+xPsfRdUC2AgbqmZSHkrh3Swv0orsghgCASA3D4AgQJlnJFpANJAxwwsSQzmpFj1i
+OUgMghFcqepEIxe/KhP1M3x0f4BZloMuCXIK5N3ILYlYgkBCSFAEhRMBsMAINjQY
+woQOYN0I4AjV46SI2KFKRIzvNx8Akh4Kq23Y1NVKDZvEHDZ0U5f0NjJrMc2wx7Ka
+sbDFdmLkP0jxI1WTyY8TQwc2IqquUR6akJKpWrE0KwoiLfACcFK4K6wa2K9aBCfw
+bkCOVYM7SCSNOYQYFgAGKRxHQxHJLlEEMg0ERuEVkWVZzPM0TUsYMC5ewUiBADKQ
+ExisiJKL9Edwu6aTbJq8EwZIZkQNaNCMGpjquTffnG2zO2y5OVnW7myO/OJPGx3l
+8j76YlnvhmxVydh/Pm/FwG5hMJ1OtjLr3TPVN2qDV2Ybol762Sr6vclY2Wn5sz79
+YDh9zF7h+Wlid25zIZ4McdPL/U/o9sz3P79ca3gxMnRz8WFioyuqlo82fVHSHVzv
+Kmj1h85ln8zP1Mx9delob1Vq3PF4MNflLfb/01Yau7aVunyq+kKdXOY/fqbJqEXN
+Jxrrr8PlzE55wRL/6LfM2V/vjAdXPkx+magZ/H+76Jtvvbem3Wt/lXmzE686S42/
+Dx+5O1Vz1TeTtA83jg/02SbtZv/XnWZd+XfO0s0f/zj9dlcpuf/0zdTzrTFqbOG2
+b2TxfSL1i7ax2guK8iom/o3vAWDqEvE=
+=Rdru
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/georges
+
+==================================================================
+
