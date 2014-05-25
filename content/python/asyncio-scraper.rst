@@ -43,11 +43,11 @@ more about, I invite you to read its documentation.
 
 To make it simple, there are two things you need to know about :
 coroutines and event loops. Coroutines are like functions, but they can
-be suspended or resume at certain points in the code. This is used to
+be suspended or resumed at certain points in the code. This is used to
 pause a coroutine while it waits for an IO (an HTTP request, for
 example) and execute another one in the meantime. We use the ``yield
 from`` keyword to state that we want the return value of a
-coroutine. An event loop is used orchestrate the execution of the coroutines.
+coroutine. An event loop is used to orchestrate the execution of the coroutines.
 
 There is much more to asyncio, but that's all we need to know for
 now. It might be a little unclear from know, so let's look at some code.
@@ -96,7 +96,7 @@ and returns a single coroutine that wrap them all, so we can write:
                                         print_page('http://example.com/bar')]))
 
 Another one is ``asyncio.as_completed``, that takes a list of coroutines
-and returns an iterator that yield the coroutines in the order in which
+and returns an iterator that yields the coroutines in the order in which
 they are completed, so that when you iterate on it, you get each
 result as soon as it's available.
 
@@ -112,7 +112,7 @@ use beautifulsoup_ for that, be others like pyquery_ or lxml_.
 For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.
 
-First of all, a helper coroutine to do get requests:
+First of all, a helper coroutine to perform GET requests:
 
 .. code-block:: python
 
@@ -169,7 +169,7 @@ gist_.
 
 Once you are comfortable with all this, I recommend you take a look at
 asyncio_'s documentation and aiohttp examples_, which will show you
-all the potential asyncio have.
+all the potential asyncio has.
 
 One limitation of this approach (in fact, any hand-made approach) is
 that there doesn't seem to be a standalone library to handle
