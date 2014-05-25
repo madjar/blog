@@ -15,7 +15,7 @@ To claim this, I am signing this object:
         "key": {
             "fingerprint": "f683691fd4aea070b860077ad62c17b10de267c2",
             "host": "keybase.io",
-            "key_id": "D62C17B10DE267C2",
+            "key_id": "d62c17b10de267c2",
             "uid": "e335a4ca5fa68b8c9eca0cbb7f7f5900",
             "username": "georges"
         },
@@ -26,34 +26,35 @@ To claim this, I am signing this object:
         "type": "web_service_binding",
         "version": 1
     },
-    "ctime": 1398000372,
+    "ctime": 1397917670,
     "expire_in": 157680000,
-    "prev": "a83a9c409268213e5b26d13241243f6815a4cf02e2040ec7202d2f0e189b752d",
-    "seqno": 13,
+    "prev": "1e5bb23002bf551a9bd4990d1072f6f9333e66111ce0246febfa0a2a572ef9c4",
+    "seqno": 11,
     "tag": "signature"
 }
 
 with the aforementioned key, yielding the PGP signature:
 
 -----BEGIN PGP MESSAGE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
+Version: Keybase OpenPGP v0.1.8
+Comment: https://keybase.io/crypto
 
-owE1kWtIFFEYhndXzS6GlwgJMnKk+qHJmTO7M7MbRrauEoFZKhWUy1zOrCfXmXV2
-2m217SIWCGtmJRWRQX+iCLuQGpuXjQhJ+2FpiasiQQRdUMoiIchmxH4dzvs97/t9
-3zkX1yaYLOakpmjN0RRcaR6OzfOm8vKhnw0Er4ghwtFA1KClQ8KyB6k+Fcsa4SAk
-mqVoOymJVg5xgAE8SwPAMJxIQ4FkeBKICNKMAIk8olrxGw49huf8KB8ruqZf3FjU
-1SIaOklmNwmKXDrvNPjjSwVEUTbOKnA2iaNZnhXsSOCAwPOMxEg2OwAG6EeqzNUi
-nfYgRfUgPxHOI3QxgAVkjGx0XgYEpdaHvUhTcL6MNN3sUxVNERSvXqvWNJ/DsGoh
-n8EGEe9eTnHzWBb1xXVDAKl+rMiEg9RJQcNGLEnZWQAAxcA8Ap3wYRW5sUHYGNrQ
-gdEGBfRIjqU4u2AFdkizkKSQjYe0SFLQSkIrpb8laewqAYggsAIkMBBAEUoAkayd
-Z2xQJIy96mTFaKnPyXn0TD/2yJx2XEVEuNm8MdFktphWJFmMvzOtXpX2/0fLPyYv
-nn59Nhqaju8fe/Yq1brhVHDy9tXhuZzU+Gw0glu6vxaWVJREmkuV5k6uULNktOwq
-iPdVOsef4B19jt9Th/8OTI779rSN9JxLOJiffSP34Z2F3o41/RXFnjNXhtLftR8Y
-DY5JlYk1wuPCkOPX+27Tg4nsukhKdK6x1fF586DYOqilwvlYfeaR9vvbvevK8LUs
-Z5On03Xy0kzV27RHA6Q/9+m2T43HVtp75PWHtmT9aAvmjN70zpQWZ7rqLxQMdw1t
-3Tc7EQeh3JdTez+kF78o+86V3n1zPd5FT/V/WxgIT3T0Rqafxza5su/9GT1ftbNT
-CizOfqkYid26nJFs6w57/wE=
-=EZXD
+yMH0AnicbZFvSBRpHMd3zT+46mURx3FKwnBl4GLPzOzM7CyhnPjCvTTOjoUEY3me
+mWfWcd2ZdXZWXVblDuQ88SCQE0820CgPiUI5ItCSldoItSO5q02pID23EKoXipxH
+L/IZsXc9b4bn+/t8v99n+KWKDtkc9py+2eDFQtVnX5rfjtp+ON//Ok4hXY5RnjgV
+xPsfRdUC2AgbqmZSHkrh3Swv0orsghgCASA3D4AgQJlnJFpANJAxwwsSQzmpFj1i
+OUgMghFcqepEIxe/KhP1M3x0f4BZloMuCXIK5N3ILYlYgkBCSFAEhRMBsMAINjQY
+woQOYN0I4AjV46SI2KFKRIzvNx8Akh4Kq23Y1NVKDZvEHDZ0U5f0NjJrMc2wx7Ka
+sbDFdmLkP0jxI1WTyY8TQwc2IqquUR6akJKpWrE0KwoiLfACcFK4K6wa2K9aBCfw
+bkCOVYM7SCSNOYQYFgAGKRxHQxHJLlEEMg0ERuEVkWVZzPM0TUsYMC5ewUiBADKQ
+ExisiJKL9Edwu6aTbJq8EwZIZkQNaNCMGpjquTffnG2zO2y5OVnW7myO/OJPGx3l
+8j76YlnvhmxVydh/Pm/FwG5hMJ1OtjLr3TPVN2qDV2Ybol762Sr6vclY2Wn5sz79
+YDh9zF7h+Wlid25zIZ4McdPL/U/o9sz3P79ca3gxMnRz8WFioyuqlo82fVHSHVzv
+Kmj1h85ln8zP1Mx9delob1Vq3PF4MNflLfb/01Yau7aVunyq+kKdXOY/fqbJqEXN
+Jxrrr8PlzE55wRL/6LfM2V/vjAdXPkx+magZ/H+76Jtvvbem3Wt/lXmzE686S42/
+Dx+5O1Vz1TeTtA83jg/02SbtZv/XnWZd+XfO0s0f/zj9dlcpuf/0zdTzrTFqbOG2
+b2TxfSL1i7ax2guK8iom/o3vAWDqEvE=
+=Rdru
 -----END PGP MESSAGE-----
 
 And finally, I am proving ownership of this host by posting or
@@ -62,3 +63,4 @@ appending to this document.
 View my publicly-auditable identity here: https://keybase.io/georges
 
 ==================================================================
+

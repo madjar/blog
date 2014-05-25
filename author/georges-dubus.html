@@ -61,11 +61,11 @@ need to know to write asynchronous code with it. If you want to know
 more about, I invite you to read its documentation.</p>
 <p>To make it simple, there are two things you need to know about :
 coroutines and event loops. Coroutines are like functions, but they can
-be suspended or resume at certain points in the code. This is used to
+be suspended or resumed at certain points in the code. This is used to
 pause a coroutine while it waits for an IO (an HTTP request, for
 example) and execute another one in the meantime. We use the <tt class="docutils literal">yield
 from</tt> keyword to state that we want the return value of a
-coroutine. An event loop is used orchestrate the execution of the coroutines.</p>
+coroutine. An event loop is used to orchestrate the execution of the coroutines.</p>
 <p>There is much more to asyncio, but that's all we need to know for
 now. It might be a little unclear from know, so let's look at some code.</p>
 </div>
@@ -100,7 +100,7 @@ and returns a single coroutine that wrap them all, so we can write:</p>
                                       <span class="n">print_page</span><span class="p">(</span><span class="s">&#39;http://example.com/bar&#39;</span><span class="p">)]))</span>
 </pre></div>
 <p>Another one is <tt class="docutils literal">asyncio.as_completed</tt>, that takes a list of coroutines
-and returns an iterator that yield the coroutines in the order in which
+and returns an iterator that yields the coroutines in the order in which
 they are completed, so that when you iterate on it, you get each
 result as soon as it's available.</p>
 </div>
@@ -111,7 +111,7 @@ scraper. The only other part we need is something to read the html. I
 use <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> for that, be others like <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a> or <a class="reference external" href="http://lxml.de/">lxml</a>.</p>
 <p>For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.</p>
-<p>First of all, a helper coroutine to do get requests:</p>
+<p>First of all, a helper coroutine to perform GET requests:</p>
 <div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
 <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">response</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -151,7 +151,7 @@ the same way.</p>
 <a class="reference external" href="https://gist.github.com/madjar/9312452">gist</a>.</p>
 <p>Once you are comfortable with all this, I recommend you take a look at
 <a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html">asyncio</a>'s documentation and aiohttp <a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples">examples</a>, which will show you
-all the potential asyncio have.</p>
+all the potential asyncio has.</p>
 <p>One limitation of this approach (in fact, any hand-made approach) is
 that there doesn't seem to be a standalone library to handle
 forms. Mechanize and scrapy have nice helpers to easily submit forms,

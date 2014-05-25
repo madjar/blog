@@ -24,11 +24,11 @@ need to know to write asynchronous code with it. If you want to know
 more about, I invite you to read its documentation.&lt;/p&gt;
 &lt;p&gt;To make it simple, there are two things you need to know about :
 coroutines and event loops. Coroutines are like functions, but they can
-be suspended or resume at certain points in the code. This is used to
+be suspended or resumed at certain points in the code. This is used to
 pause a coroutine while it waits for an IO (an HTTP request, for
 example) and execute another one in the meantime. We use the &lt;tt class="docutils literal"&gt;yield
 from&lt;/tt&gt; keyword to state that we want the return value of a
-coroutine. An event loop is used orchestrate the execution of the coroutines.&lt;/p&gt;
+coroutine. An event loop is used to orchestrate the execution of the coroutines.&lt;/p&gt;
 &lt;p&gt;There is much more to asyncio, but that's all we need to know for
 now. It might be a little unclear from know, so let's look at some code.&lt;/p&gt;
 &lt;/div&gt;
@@ -63,7 +63,7 @@ and returns a single coroutine that wrap them all, so we can write:&lt;/p&gt;
                                       &lt;span class="n"&gt;print_page&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;http://example.com/bar&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)]))&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Another one is &lt;tt class="docutils literal"&gt;asyncio.as_completed&lt;/tt&gt;, that takes a list of coroutines
-and returns an iterator that yield the coroutines in the order in which
+and returns an iterator that yields the coroutines in the order in which
 they are completed, so that when you iterate on it, you get each
 result as soon as it's available.&lt;/p&gt;
 &lt;/div&gt;
@@ -74,7 +74,7 @@ scraper. The only other part we need is something to read the html. I
 use &lt;a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/"&gt;beautifulsoup&lt;/a&gt; for that, be others like &lt;a class="reference external" href="http://pythonhosted.org/pyquery/"&gt;pyquery&lt;/a&gt; or &lt;a class="reference external" href="http://lxml.de/"&gt;lxml&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;For this example, we'll write a small scraper to get the torrent
 links for various linux distributions from the pirate bay.&lt;/p&gt;
-&lt;p&gt;First of all, a helper coroutine to do get requests:&lt;/p&gt;
+&lt;p&gt;First of all, a helper coroutine to perform GET requests:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nd"&gt;@asyncio.coroutine&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;response&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;yield from&lt;/span&gt; &lt;span class="n"&gt;aiohttp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;GET&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -114,7 +114,7 @@ the same way.&lt;/p&gt;
 &lt;a class="reference external" href="https://gist.github.com/madjar/9312452"&gt;gist&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Once you are comfortable with all this, I recommend you take a look at
 &lt;a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html"&gt;asyncio&lt;/a&gt;'s documentation and aiohttp &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples"&gt;examples&lt;/a&gt;, which will show you
-all the potential asyncio have.&lt;/p&gt;
+all the potential asyncio has.&lt;/p&gt;
 &lt;p&gt;One limitation of this approach (in fact, any hand-made approach) is
 that there doesn't seem to be a standalone library to handle
 forms. Mechanize and scrapy have nice helpers to easily submit forms,
