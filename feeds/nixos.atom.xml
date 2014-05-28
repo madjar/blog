@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-05-25T21:00:00+02:00</updated><entry><title>This Week in Nixos, first issue</title><link href="http://compiletoi.net/this-week-in-nixos-1.html" rel="alternate"></link><updated>2014-05-25T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-05-25:this-week-in-nixos-1.html</id><summary type="html">&lt;p&gt;Welcome to the first issue of &lt;cite&gt;This Week in Nixos&lt;/cite&gt;. Nix is a purely
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-05-25T21:00:00+02:00</updated><entry><title>This Week in NixOS, first issue</title><link href="http://compiletoi.net/this-week-in-nixos-1.html" rel="alternate"></link><updated>2014-05-25T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-05-25:this-week-in-nixos-1.html</id><summary type="html">&lt;p&gt;Welcome to the first issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
 functional package manager that aims at solving old problems with a
-new approach, and Nixos is the distribution based on Nix. This is an
-overview of what happened in the development of Nixos and in its
+new approach, and NixOS is the distribution based on Nix. This is an
+overview of what happened in the development of NixOS and in its
 community this week. If you want something mentioned in the next issue,
-send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20Nixos%20Suggestion"&gt;email&lt;/a&gt; !&lt;/p&gt;
+send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion"&gt;email&lt;/a&gt; !&lt;/p&gt;
 &lt;p&gt;This is the first issue, and I'm still trying to find the right
 formula for this weekly overview. Any comment welcome!&lt;/p&gt;
 &lt;div class="section" id="nix-itself"&gt;
@@ -26,7 +26,7 @@ noticeable probably being &lt;a class="reference external" href="https://github.
 and a lot of haskell packages.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="nixos"&gt;
-&lt;h2&gt;Nixos&lt;/h2&gt;
+&lt;h2&gt;NixOS&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;Many updates to &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;nixos-install&lt;/span&gt;&lt;/tt&gt; and to the install ISO (&lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/1e2291f23ae2f51615353610db0482f464a7a77e"&gt;here is
 one of the 12 commits&lt;/a&gt;).&lt;/li&gt;
@@ -35,8 +35,8 @@ one of the 12 commits&lt;/a&gt;).&lt;/li&gt;
 &lt;/div&gt;
 &lt;div class="section" id="mailing-list"&gt;
 &lt;h2&gt;Mailing list&lt;/h2&gt;
-&lt;p&gt;The mailing list has been quite silent this week, apart from a
-discussion about a &lt;a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13034"&gt;restructuring of the wiki&lt;/a&gt;.&lt;/p&gt;
-&lt;!-- LocalWords:  Nixos Nixpkgs --&gt;
+&lt;p&gt;Many questions and discussions this week, including discussion about a
+&lt;a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13034"&gt;restructuring of the wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- LocalWords:  NixOS Nixpkgs --&gt;
 &lt;/div&gt;
 </summary></entry></feed>
