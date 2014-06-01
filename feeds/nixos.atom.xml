@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-05-25T21:00:00+02:00</updated><entry><title>This Week in NixOS, first issue</title><link href="http://compiletoi.net/this-week-in-nixos-1.html" rel="alternate"></link><updated>2014-05-25T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-05-25:this-week-in-nixos-1.html</id><summary type="html">&lt;p&gt;Welcome to the first issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-06-01T21:00:00+02:00</updated><entry><title>This Week in NixOS, second issue</title><link href="http://compiletoi.net/this-week-in-nixos-2.html" rel="alternate"></link><updated>2014-06-01T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-01:this-week-in-nixos-2.html</id><summary type="html">&lt;p&gt;Welcome to the second issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+functional package manager that aims at solving old problems with a
+new approach, and NixOS is the distribution based on Nix. This is an
+overview of what happened in the development of NixOS and in its
+community this week. A lot of things happen in a lot of places and I
+might miss some, so if you want to make sure that something is
+mentionned in the next issue, send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion"&gt;email&lt;/a&gt;!&lt;/p&gt;
+&lt;div class="section" id="nix-itself"&gt;
+&lt;h2&gt;Nix itself&lt;/h2&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;scopedImport&lt;/tt&gt; &lt;a class="reference external" href="https://github.com/NixOS/nix/commit/c273c15cb13bb86420dda1e5341a4e19517532b5"&gt;was introduced in Nix&lt;/a&gt;. It
+enables the definition of package expressions without having to list
+the dependencies again as function arguments (which is the case for
+every packages as of now), making the writing of package expressions
+(even) simpler. It isn't used in nixpkgs yet, but I guess we will see
+a big commit removing all argument definitions at some point.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nixpkgs"&gt;
+&lt;h2&gt;Nixpkgs&lt;/h2&gt;
+&lt;p&gt;As usual, a lot of packages updates, though I don't think I have seen
+anything huge. I plan on writing some tools to generate an exhaustive
+list of updates for this section (and at some point, for your
+&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;nixos-rebuild&lt;/span&gt;&lt;/tt&gt; and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;nix-env&lt;/span&gt; &lt;span class="pre"&gt;-u&lt;/span&gt;&lt;/tt&gt;).&lt;/p&gt;
+&lt;p&gt;Darwin support has been greatly improved, with &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/b09a788e13712f694f12ea1d0fdbf630395effd2"&gt;several&lt;/a&gt;
+&lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/0369769bd9843c7ddaab1f9ba77732337abfaee2"&gt;major&lt;/a&gt;
+&lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/2e2f42f21509b72e337b456c4986b8ea08a11e18"&gt;bug&lt;/a&gt;
+fixes.&lt;/p&gt;
+&lt;p&gt;A lot of progress in the new &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/pull/1903"&gt;pypi2nix&lt;/a&gt;. I don't think
+we'll have to wait too long for this new, shiny way to generate nix
+expressions from python packages.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="community"&gt;
+&lt;h2&gt;Community&lt;/h2&gt;
+&lt;p&gt;NixOS now has a new &lt;a class="reference external" href="http://nixos.org/"&gt;website&lt;/a&gt;. While the old
+website presented all Nix related projects (nix, nixos, hydra, disnix,
+etc) on an equal footing, the new website focuses on NixOS to give an
+immediate overview of its advantages and the dynamism of its
+community. The new website a lot of &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13148"&gt;feedback and constructive
+criticism&lt;/a&gt; on
+the mailing list.&lt;/p&gt;
+&lt;p&gt;Joachim Schiele presented the &lt;a class="reference external" href="http://blog.lastlog.de/posts/nix-build-view_using_ncurses/"&gt;first preview&lt;/a&gt; of
+&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;nix-build-view&lt;/span&gt;&lt;/tt&gt;, a graphical frontend for nix-build, to visualize
+parallel execution of downloads and builds. This first preview does
+not actually display nix build execution: it aims at generating
+discussion about what a good tool should be before actually find how
+to integrate with nix. The goal is to create NixOS tools that have the
+same level of quality as Gentoo tools. This is something I have in
+mind for some time, so I'll keep a close eye on the initiative.&lt;/p&gt;
+&lt;/div&gt;
+</summary></entry><entry><title>This Week in NixOS, first issue</title><link href="http://compiletoi.net/this-week-in-nixos-1.html" rel="alternate"></link><updated>2014-05-25T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-05-25:this-week-in-nixos-1.html</id><summary type="html">&lt;p&gt;Welcome to the first issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
 functional package manager that aims at solving old problems with a
 new approach, and NixOS is the distribution based on Nix. This is an
 overview of what happened in the development of NixOS and in its
