@@ -15,7 +15,7 @@ mentionned in the next issue, send me an &lt;a class="reference external" href="
 &lt;h2&gt;Nixpkgs&lt;/h2&gt;
 &lt;p&gt;A change in &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/15f092d7a7088ef1fadb059f305685da045fd979"&gt;openssl&lt;/a&gt;
 led to a full recompilation of nixpkgs, which hammered the hydra build
-machines for a few days. This sparkled a &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216"&gt;discussion on the mailing
+machines for a few days. This sparkled a &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216"&gt;disucssion on the mailing
 list&lt;/a&gt;
 on the best way to handle security updates quickly.&lt;/p&gt;
 &lt;/div&gt;
