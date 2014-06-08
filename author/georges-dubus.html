@@ -30,14 +30,14 @@
 
             <aside id="featured" class="body">
                 <article class="mainarticle">
-                    <h1 class="entry-title"><a href="http://compiletoi.net/this-week-in-nixos-2.html">This Week in NixOS, second issue</a></h1>
+                    <h1 class="entry-title"><a href="http://compiletoi.net/this-week-in-nixos-3.html">This Week in NixOS, third issue</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2014-06-01T21:00:00">
-                Sun 01 June 2014
+        <abbr class="published" title="2014-06-08T21:00:00">
+                Sun 08 June 2014
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/nixos.html">nixos</a>. </p>
-</footer><!-- /.post-info --><p>Welcome to the second issue of <cite>This Week in NixOS</cite>. Nix is a purely
+</footer><!-- /.post-info --><p>Welcome to the third issue of <cite>This Week in NixOS</cite>. Nix is a purely
 functional package manager that aims at solving old problems with a
 new approach, and NixOS is the distribution based on Nix. This is an
 overview of what happened in the development of NixOS and in its
@@ -46,51 +46,56 @@ might miss some, so if you want to make sure that something is
 mentionned in the next issue, send me an <a class="reference external" href="mailto:georges.dubus&#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion">email</a>!</p>
 <div class="section" id="nix-itself">
 <h2>Nix itself</h2>
-<p><tt class="docutils literal">scopedImport</tt> <a class="reference external" href="https://github.com/NixOS/nix/commit/c273c15cb13bb86420dda1e5341a4e19517532b5">was introduced in Nix</a>. It
-enables the definition of package expressions without having to list
-the dependencies again as function arguments (which is the case for
-every packages as of now), making the writing of package expressions
-(even) simpler. It isn't used in nixpkgs yet, but I guess we will see
-a big commit removing all argument definitions at some point.</p>
+<p>Nothing new in Nix. However, emacs users will be happy to know that
+<a class="reference external" href="http://melpa.milkbox.net/#/nix-mode">the nix-mode has been added to melpa</a>.</p>
 </div>
 <div class="section" id="nixpkgs">
 <h2>Nixpkgs</h2>
-<p>As usual, a lot of packages updates, though I don't think I have seen
-anything huge. I plan on writing some tools to generate an exhaustive
-list of updates for this section (and at some point, for your
-<tt class="docutils literal"><span class="pre">nixos-rebuild</span></tt> and <tt class="docutils literal"><span class="pre">nix-env</span> <span class="pre">-u</span></tt>).</p>
-<p>Darwin support has been greatly improved, with <a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/b09a788e13712f694f12ea1d0fdbf630395effd2">several</a>
-<a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/0369769bd9843c7ddaab1f9ba77732337abfaee2">major</a>
-<a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/2e2f42f21509b72e337b456c4986b8ea08a11e18">bug</a>
-fixes.</p>
-<p>A lot of progress in the new <a class="reference external" href="https://github.com/NixOS/nixpkgs/pull/1903">pypi2nix</a>. I don't think
-we'll have to wait too long for this new, shiny way to generate nix
-expressions from python packages.</p>
+<p>A change in <a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/15f092d7a7088ef1fadb059f305685da045fd979">openssl</a>
+led to a full recompilation of nixpkgs, which hammered the hydra build
+machines for a few days. This sparkled a <a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216">discussion on the mailing
+list</a>
+on the best way to handle security updates quickly.</p>
 </div>
 <div class="section" id="community">
 <h2>Community</h2>
-<p>NixOS now has a new <a class="reference external" href="http://nixos.org/">website</a>. While the old
-website presented all Nix related projects (nix, nixos, hydra, disnix,
-etc) on an equal footing, the new website focuses on NixOS to give an
-immediate overview of its advantages and the dynamism of its
-community. The new website a lot of <a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13148">feedback and constructive
-criticism</a> on
-the mailing list.</p>
-<p>Joachim Schiele presented the <a class="reference external" href="http://blog.lastlog.de/posts/nix-build-view_using_ncurses/">first preview</a> of
-<tt class="docutils literal"><span class="pre">nix-build-view</span></tt>, a graphical frontend for nix-build, to visualize
-parallel execution of downloads and builds. This first preview does
-not actually display nix build execution: it aims at generating
-discussion about what a good tool should be before actually find how
-to integrate with nix. The goal is to create NixOS tools that have the
-same level of quality as Gentoo tools. This is something I have in
-mind for some time, so I'll keep a close eye on the initiative.</p>
+<p>The new NixOS website gets a wonderful <a class="reference external" href="http://nixos.org/nixos/packages.html">packages search page</a>.</p>
 </div>
-<p>There are <a href="http://compiletoi.net/this-week-in-nixos-2.html#disqus_thread">comments</a>.</p>                </article>
+<div class="section" id="a-call-for-help">
+<h2>A call for help</h2>
+<p>This week's issue is quite short. My sources include watching the git
+logs, the mailing list, and asking on IRC at the last minute. This
+means there probably are many interesting things that I
+missed. Therefore, if you are a NixOS contributor and do or see
+something interesting, please send me an <a class="reference external" href="mailto:georges.dubus&#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion">email</a> or ping me on IRC
+(I'm madjar) to make sure no good deed stays unpublished.</p>
+</div>
+<p>There are <a href="http://compiletoi.net/this-week-in-nixos-3.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <hr />
                         <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                        <h1><a href="http://compiletoi.net/this-week-in-nixos-2.html" rel="bookmark" title="Permalink to This Week in NixOS, second issue">This Week in NixOS, second issue</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-01T21:00:00">
+                Sun 01 June 2014
+        </abbr>
+
+<p>In <a href="http://compiletoi.net/category/nixos.html">nixos</a>. </p>
+</footer><!-- /.post-info -->                <p>Welcome to the second issue of <cite>This Week in NixOS</cite>. Nix is a purely
+functional package manager that aims at solving old problems with a
+new approach, and NixOS is the distribution based on Nix. This is an
+overview of what happened in the development of NixOS and in its ...</p>
+                <a class="readmore" href="http://compiletoi.net/this-week-in-nixos-2.html">read more</a>
+<p>There are <a href="http://compiletoi.net/this-week-in-nixos-2.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

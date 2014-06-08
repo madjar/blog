@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-06-01T21:00:00+02:00</updated><entry><title>This Week in NixOS, second issue</title><link href="http://compiletoi.net/this-week-in-nixos-2.html" rel="alternate"></link><updated>2014-06-01T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-01:this-week-in-nixos-2.html</id><summary type="html">&lt;p&gt;Welcome to the second issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-06-08T21:00:00+02:00</updated><entry><title>This Week in NixOS, third issue</title><link href="http://compiletoi.net/this-week-in-nixos-3.html" rel="alternate"></link><updated>2014-06-08T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-08:this-week-in-nixos-3.html</id><summary type="html">&lt;p&gt;Welcome to the third issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+functional package manager that aims at solving old problems with a
+new approach, and NixOS is the distribution based on Nix. This is an
+overview of what happened in the development of NixOS and in its
+community this week. A lot of things happen in a lot of places and I
+might miss some, so if you want to make sure that something is
+mentionned in the next issue, send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion"&gt;email&lt;/a&gt;!&lt;/p&gt;
+&lt;div class="section" id="nix-itself"&gt;
+&lt;h2&gt;Nix itself&lt;/h2&gt;
+&lt;p&gt;Nothing new in Nix. However, emacs users will be happy to know that
+&lt;a class="reference external" href="http://melpa.milkbox.net/#/nix-mode"&gt;the nix-mode has been added to melpa&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nixpkgs"&gt;
+&lt;h2&gt;Nixpkgs&lt;/h2&gt;
+&lt;p&gt;A change in &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/15f092d7a7088ef1fadb059f305685da045fd979"&gt;openssl&lt;/a&gt;
+led to a full recompilation of nixpkgs, which hammered the hydra build
+machines for a few days. This sparkled a &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216"&gt;discussion on the mailing
+list&lt;/a&gt;
+on the best way to handle security updates quickly.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="community"&gt;
+&lt;h2&gt;Community&lt;/h2&gt;
+&lt;p&gt;The new NixOS website gets a wonderful &lt;a class="reference external" href="http://nixos.org/nixos/packages.html"&gt;packages search page&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="a-call-for-help"&gt;
+&lt;h2&gt;A call for help&lt;/h2&gt;
+&lt;p&gt;This week's issue is quite short. My sources include watching the git
+logs, the mailing list, and asking on IRC at the last minute. This
+means there probably are many interesting things that I
+missed. Therefore, if you are a NixOS contributor and do or see
+something interesting, please send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion"&gt;email&lt;/a&gt; or ping me on IRC
+(I'm madjar) to make sure no good deed stays unpublished.&lt;/p&gt;
+&lt;/div&gt;
+</summary></entry><entry><title>This Week in NixOS, second issue</title><link href="http://compiletoi.net/this-week-in-nixos-2.html" rel="alternate"></link><updated>2014-06-01T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-01:this-week-in-nixos-2.html</id><summary type="html">&lt;p&gt;Welcome to the second issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
 functional package manager that aims at solving old problems with a
 new approach, and NixOS is the distribution based on Nix. This is an
 overview of what happened in the development of NixOS and in its
