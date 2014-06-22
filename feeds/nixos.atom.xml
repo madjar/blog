@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-06-08T21:00:00+02:00</updated><entry><title>This Week in NixOS, third issue</title><link href="http://compiletoi.net/this-week-in-nixos-3.html" rel="alternate"></link><updated>2014-06-08T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-08:this-week-in-nixos-3.html</id><summary type="html">&lt;p&gt;Welcome to the third issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/nixos.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2014-06-22T21:00:00+02:00</updated><entry><title>This Week couple of weeks in NixOS</title><link href="http://compiletoi.net/this-week-in-nixos-4.html" rel="alternate"></link><updated>2014-06-22T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-22:this-week-in-nixos-4.html</id><summary type="html">&lt;p&gt;Welcome to a new issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
+functional package manager that aims at solving old problems with a
+new approach, and NixOS is the distribution based on Nix. This is an
+overview of what happened in the development of NixOS and in its
+community this week. A lot of things happen in a lot of places and I
+might miss some, so if you want to make sure that something is
+mentionned in the next issue, send me an &lt;a class="reference external" href="mailto:georges.dubus&amp;#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion"&gt;email&lt;/a&gt;!&lt;/p&gt;
+&lt;div class="section" id="nix-the-package-manager"&gt;
+&lt;h2&gt;Nix, the package manager&lt;/h2&gt;
+&lt;p&gt;Nix gets its usual share of fixes, but nothing groundbreaking, it seems.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="nixpkgs-the-package-compilation"&gt;
+&lt;h2&gt;Nixpkgs, the package compilation&lt;/h2&gt;
+&lt;p&gt;The last two weeks have been busy for nixpkgs. I only skipped a week,
+and have 4 times as much commits as usual to review. That is good
+news!&lt;/p&gt;
+&lt;p&gt;We have new versions of a lot of things, including &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/8bb2313915dcf5dff9cf2fcf5b0acaee6adf30bd"&gt;a new kernel&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It is now possible to activate unfree packages &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/a076a60735bb8598571978a40aab4d65be265c2f"&gt;based on a predicate&lt;/a&gt;,
+which makes it possible to cherry-pick unfree packages.&lt;/p&gt;
+&lt;p&gt;A &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/1b78ca58bccd564350b52d00471399305e4eab23"&gt;stdenv update&lt;/a&gt;
+triggered a full rebuild. It included a gcc update, a pkgconfig
+update, and the merge of the grsecurity branch. Changes to stdenv are
+usually bundled together in order to reduce the number of rebuilds
+necessary.&lt;/p&gt;
+&lt;p&gt;Security updates trigger massive rebuilds, and Hydra only update a
+channel once the rebuild is over. Thus a security update can take a
+few days to reach your machine. However, if you need the update right
+now, you can replace runtime dependencies of the packages installed on
+your system. &lt;a class="reference external" href="https://nixos.org/wiki/Security_Updates"&gt;This is documented on the wiki&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-community"&gt;
+&lt;h2&gt;The community&lt;/h2&gt;
+&lt;p&gt;Fonts on linux have always been a thing to configure. &lt;a class="reference external" href="https://nixos.org/wiki/Fonts"&gt;A wiki page&lt;/a&gt; explains how to configure them in
+NixOS. As for me, I still haven't found the right configuration (those
+pesky Outlook emails still are ugly), but I'll keep searching!&lt;/p&gt;
+&lt;p&gt;Nix provides way to customize a package by changing parts of the
+derivation, but only the default expression is built by Hydra and has
+a binary package. The &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13274"&gt;mailing list discuss&lt;/a&gt; on
+making Hydra build all the variants of a package.&lt;/p&gt;
+&lt;/div&gt;
+</summary></entry><entry><title>This Week in NixOS, third issue</title><link href="http://compiletoi.net/this-week-in-nixos-3.html" rel="alternate"></link><updated>2014-06-08T21:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2014-06-08:this-week-in-nixos-3.html</id><summary type="html">&lt;p&gt;Welcome to the third issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
 functional package manager that aims at solving old problems with a
 new approach, and NixOS is the distribution based on Nix. This is an
 overview of what happened in the development of NixOS and in its
@@ -15,7 +55,7 @@ mentionned in the next issue, send me an &lt;a class="reference external" href="
 &lt;h2&gt;Nixpkgs&lt;/h2&gt;
 &lt;p&gt;A change in &lt;a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/15f092d7a7088ef1fadb059f305685da045fd979"&gt;openssl&lt;/a&gt;
 led to a full recompilation of nixpkgs, which hammered the hydra build
-machines for a few days. This sparkled a &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216"&gt;disucssion on the mailing
+machines for a few days. This sparkled a &lt;a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13216"&gt;discussion on the mailing
 list&lt;/a&gt;
 on the best way to handle security updates quickly.&lt;/p&gt;
 &lt;/div&gt;
