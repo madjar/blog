@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>This couple of weeks in NixOS</title>
+        <title>This last few weeks in NixOS</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="http://compiletoi.net/theme/css/main.css" type="text/css" />
         <link href="http://compiletoi.net/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Compile-toi toi même Atom Feed" />
@@ -14,12 +14,12 @@
 
         <!--[if lt IE 7]>
                 <link rel="stylesheet" type="text/css" media="all" href="http://compiletoi.net/css/ie6.css"/><![endif]-->
-<meta property="og:title" content="This couple of weeks in NixOS" />
+<meta property="og:title" content="This last few weeks in NixOS" />
 <meta property="og:description" content="&lt;p&gt;Welcome to a new issue of &lt;cite&gt;This Week in NixOS&lt;/cite&gt;. Nix is a purely
 functional package manager that aims at solving old problems with a
 new approach, and NixOS is the distribution based on Nix. This is an
 overview of what happened in the development of NixOS and in its ...&lt;/p&gt;" />
-<meta property="og:url" content="http://compiletoi.net/this-week-in-nixos-4.html">
+<meta property="og:url" content="http://compiletoi.net/this-week-in-nixos-5.html">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@georgesdubus" />
 </head>
@@ -38,12 +38,12 @@ overview of what happened in the development of NixOS and in its ...&lt;/p&gt;" 
 
 <section id="content" class="body">
 <article class="mainarticle">
-        <header> <h1 class="entry-title"><a href="this-week-in-nixos-4.html"
-        rel="bookmark" title="Permalink to This couple of weeks in NixOS">This couple of weeks in NixOS</a></h1>  </header>
+        <header> <h1 class="entry-title"><a href="this-week-in-nixos-5.html"
+        rel="bookmark" title="Permalink to This last few weeks in NixOS">This last few weeks in NixOS</a></h1>  </header>
         <div class="entry-content">
 <footer class="post-info">
-        <abbr class="published" title="2014-06-22T21:00:00">
-                Sun 22 June 2014
+        <abbr class="published" title="2014-07-14T17:30:00">
+                Mon 14 July 2014
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/nixos.html">nixos</a>. </p>
@@ -54,38 +54,49 @@ overview of what happened in the development of NixOS and in its
 community this week. A lot of things happen in a lot of places and I
 might miss some, so if you want to make sure that something is
 mentionned in the next issue, send me an <a class="reference external" href="mailto:georges.dubus&#64;gmail.com?subject=This%20Week%20in%20NixOS%20Suggestion">email</a>!</p>
-<div class="section" id="nix-the-package-manager">
-<h2>Nix, the package manager</h2>
-<p>Nix gets its usual share of fixes, but nothing groundbreaking, it seems.</p>
-</div>
 <div class="section" id="nixpkgs-the-package-compilation">
 <h2>Nixpkgs, the package compilation</h2>
-<p>The last two weeks have been busy for nixpkgs. I only skipped a week,
-and have 4 times as much commits as usual to review. That is good
-news!</p>
-<p>We have new versions of a lot of things, including <a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/8bb2313915dcf5dff9cf2fcf5b0acaee6adf30bd">a new kernel</a>.</p>
-<p>It is now possible to activate unfree packages <a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/a076a60735bb8598571978a40aab4d65be265c2f">based on a predicate</a>,
-which makes it possible to cherry-pick unfree packages.</p>
-<p>A <a class="reference external" href="https://github.com/NixOS/nixpkgs/commit/1b78ca58bccd564350b52d00471399305e4eab23">stdenv update</a>
-triggered a full rebuild. It included a gcc update, a pkgconfig
-update, and the merge of the grsecurity branch. Changes to stdenv are
-usually bundled together in order to reduce the number of rebuilds
-necessary.</p>
-<p>Security updates trigger massive rebuilds, and Hydra only update a
-channel once the rebuild is over. Thus a security update can take a
-few days to reach your machine. However, if you need the update right
-now, you can replace runtime dependencies of the packages installed on
-your system. <a class="reference external" href="https://nixos.org/wiki/Security_Updates">This is documented on the wiki</a>.</p>
+<p>As usually, a ton of changes happened in Nixpkgs. I'll cite the new
+expression <cite>firefox-bin</cite> for the binary distribution of Firefox, which
+fixed a strange session problem I had with the source version of
+Firefox 30.</p>
+<p>The more time I spend trying to follow the changes in Nixpkgs, the
+more I realize how much we need tools to seen what's happening in
+NixOS. I hope I can discuss this with the fellow NixOS users I meet at
+the EuroPython next week.</p>
+<p>Alexander Kjeldaas has worked on <a class="reference external" href="https://github.com/NixOS/nixpkgs/pull/2281">binary determinism</a> in Nixpkgs. The goal of
+binary determinism is that the output of package build is always the
+same, bit for bit. This is not the case currently: there are many
+things that can result in a different binary. For example, many
+programs include the build time in the resulting binary. One of main
+advantage is security: since anybody can get the exact same binary
+package, anybody can verify that the NixOS binary cache serves the
+right binaries, without any backdoor added. Thanks to Austin Seipp for
+explaining this to me. You can check <a class="reference external" href="https://gist.github.com/madjar/545e1a9b6a8f9b7faeb8">his explaination</a> for more
+details.</p>
+<p>A <a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13447">staging branch has been added to the git repository</a>. Changes
+that cause massive rebuilds/redownloads are to be merge into staging,
+and staging will be merge into master every few weeks. That way, Hydra
+can start all the rebuilds while still building the master channel,
+which should avoid the channel freezes caused by Hydra rebuilding the
+word before updating the channel.</p>
 </div>
 <div class="section" id="the-community">
 <h2>The community</h2>
-<p>Fonts on linux have always been a thing to configure. <a class="reference external" href="https://nixos.org/wiki/Fonts">A wiki page</a> explains how to configure them in
-NixOS. As for me, I still haven't found the right configuration (those
-pesky Outlook emails still are ugly), but I'll keep searching!</p>
-<p>Nix provides way to customize a package by changing parts of the
-derivation, but only the default expression is built by Hydra and has
-a binary package. The <a class="reference external" href="http://comments.gmane.org/gmane.linux.distributions.nixos/13274">mailing list discuss</a> on
-making Hydra build all the variants of a package.</p>
+<p>On twitter, <a class="reference external" href="https://twitter.com/NixOsTips">&#64;NixOsTips</a> tweets
+useful tips about using Nix and NixOS usage, which can be difficult to
+discover in the docs or the wiki. They also tweet articles about
+NixOS, and end up being one of the sources of this newsletter.</p>
+<p>On the mailing list, a discussion about the <a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13432">rebuild impact factor</a> and
+how to compute it, a thread about <a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13381">the use of ruby gems in NixOS</a>
+(it's not pretty for now, and needs some love from someone how knows
+ruby packaging well enough), and a <a class="reference external" href="http://thread.gmane.org/gmane.linux.distributions.nixos/13458/focus=13460">nice trick to avoid needless
+copying when using nix-shell</a>.</p>
+<p>NixOS is recieving a lot of attention recently, especially from
+Haskell developpers: a <a class="reference external" href="http://fuuzetsu.co.uk/blog/posts/2014-06-28-My-experience-with-NixOS.html">couple</a>
+<a class="reference external" href="http://www.pavelkogan.com/2014/07/09/haskell-development-with-nix/">of</a>
+people give feedback on their experience with Nix for development, and
+it's quite positive, with some useful criticism.</p>
 </div>
 
         </div><!-- /.entry-content -->
@@ -93,7 +104,7 @@ making Hydra build all the variants of a package.</p>
         <h2>Comments !</h2>
             <div id="disqus_thread"></div>
             <script type="text/javascript">
-               var disqus_identifier = "this-week-in-nixos-4.html";
+               var disqus_identifier = "this-week-in-nixos-5.html";
                (function() {
                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                dsq.src = 'http://compiletoi.disqus.com/embed.js';
