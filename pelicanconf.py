@@ -40,7 +40,7 @@ STATIC_PATHS = ['CNAME', 'images', 'slides', '.well-known', '_config.yml']
 ARTICLE_EXCLUDES = ['slides']
 
 # TODO : use buildout to handle the plugin deps ?
-PLUGIN_PATH = 'plugins'
+PLUGIN_PATHS = ['plugins']
 PLUGINS = ['pelican_youtube']
 
 
