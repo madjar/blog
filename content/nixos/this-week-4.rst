@@ -1,5 +1,5 @@
-This Week couple of weeks in NixOS
-==================================
+This couple of weeks in NixOS
+=============================
 :date: 2014-06-22 21:00
 :slug: this-week-in-nixos-4
 
