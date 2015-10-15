@@ -30,176 +30,51 @@
 
             <aside id="featured" class="body">
                 <article class="mainarticle">
-                    <h1 class="entry-title"><a href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html">Fast scraping in python with asyncio</a></h1>
+                    <h1 class="entry-title"><a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html">Through the lens of Haskell: exploring new ideas for library design</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2015-10-15T12:00:00+02:00">
+                Thu 15 October 2015
+        </abbr>
+
+<p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
+<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a><a href="http://compiletoi.net/tag/haskell.html">haskell</a></p></footer><!-- /.post-info --><p>At EuroPython 2014, there was a talk about <a class="reference external" href="https://youtube.com/watch?v=eVChXmNjV7o">&quot;What Python can learn
+from Haskell&quot;</a>, which was very interesting, and seems to have
+sparkled the <a class="reference external" href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> (type annotations in python 3.5). This shows
+once more that sharing between languages can result in improvements
+for everybody involved.</p>
+<p>In this talk, we take another look at Haskell. However, rather than
+looking at the language itself, we'll look at how the community finds
+ideas for tools and libraries by exploring the &quot;design space&quot;</p>
+<p>I gave this talk at EuroPython 2015. The quality of the video is not
+very good (my blue-coloring vga output doesn't help), so here is a
+link to <a class="reference external" href="https://docs.google.com/presentation/d/1Joj0ng6slcKCaDXytvUCxfhrW9H26uXxdPtOJHD_Zd8/edit?usp=sharing">the slides</a>.</p>
+<div class="youtube" align="center"><iframe width="420" height="315" src="https://www.youtube.com/embed/22lmEdB9QyU" frameborder="0"></iframe></div><p>There are <a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                        <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                        <h1><a href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html" rel="bookmark" title="Permalink to Fast scraping in python with asyncio">Fast scraping in python with asyncio</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-03-02T17:50:00+01:00">
                 Sun 02 March 2014
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
-<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info --><p>Web scraping is one of those subjects that often appears in python
+<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a></p></footer><!-- /.post-info -->                <p>Web scraping is one of those subjects that often appears in python
 discussions. There are many ways to do this, and there doesn't seem to
 be one best way. There are fully fledged frameworks like <a class="reference external" href="http://scrapy.org">scrapy</a> and more
 lightweight libraries like <a class="reference external" href="http://wwwsearch.sourceforge.net/mechanize/">mechanize</a>. Do-it-yourself solutions are
-also popular: one can go a long way by using <a class="reference external" href="http://python-requests.org/">requests</a> and
-<a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> or <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a>.</p>
-<p>The reason for this diversity is that &quot;scraping&quot; actually covers
-multiple problems: you don't need to same tool to extract data from
-hundreds of pages and to automate some web workflow (like filling a
-few forms and getting some data back). I like the do-it-yourself
-approach because it's flexible, but it's not well-suited for massive
-data extraction, because <cite>requests</cite> does requests synchronously, and
-many requests means you have to wait a long time.</p>
-<p>In this blog post, I'll present you an alternative to <cite>requests</cite> based
-on the new asyncio library : <a class="reference external" href="https://github.com/KeepSafe/aiohttp">aiohttp</a>. I use it to write small
-scraper that are really fast, and I'll show you how.</p>
-<div class="section" id="basics-of-asyncio">
-<h2>Basics of asyncio</h2>
-<p><a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html">asyncio</a> is the asynchronous IO library that was introduced in python
-3.4. You can also get it from pypi on python 3.3. It's quite complex
-and I won't go too much into details. Instead, I'll explain what you
-need to know to write asynchronous code with it. If you want to know
-more about, I invite you to read its documentation.</p>
-<p>To make it simple, there are two things you need to know about :
-coroutines and event loops. Coroutines are like functions, but they can
-be suspended or resumed at certain points in the code. This is used to
-pause a coroutine while it waits for an IO (an HTTP request, for
-example) and execute another one in the meantime. We use the <tt class="docutils literal">yield
-from</tt> keyword to state that we want the return value of a
-coroutine. An event loop is used to orchestrate the execution of the coroutines.</p>
-<p>There is much more to asyncio, but that's all we need to know for
-now. It might be a little unclear from know, so let's look at some code.</p>
-</div>
-<div class="section" id="id1">
-<h2>aiohttp</h2>
-<p><a class="reference external" href="https://github.com/KeepSafe/aiohttp">aiohttp</a> is a library designed to work with asyncio, with an API that
-looks like requests'. It's not very well documented for now, but there
-are some very useful <a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples">examples</a>. We'll first show its basic usage.</p>
-<p>First, we'll define a coroutine to get a page and print it. We use
-<tt class="docutils literal">asyncio.coroutine</tt> to decorate a function as a
-coroutine. <tt class="docutils literal">aiohttp.request</tt> is a coroutine, and so is the <tt class="docutils literal">read</tt>
-method, so we'll need to use <tt class="docutils literal">yield from</tt> to call them. Apart from
-that, the code looks pretty straightforward:</p>
-<div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
-<span class="k">def</span> <span class="nf">print_page</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-    <span class="n">body</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">response</span><span class="o">.</span><span class="n">read_and_close</span><span class="p">(</span><span class="n">decode</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
-</pre></div>
-<p>As we have seen, we can call a coroutine from another coroutine with
-<tt class="docutils literal">yield from</tt>. To call a coroutine from synchronous code, we'll need an
-event loop. We can get the standard one with
-<tt class="docutils literal">asyncio.get_event_loop()</tt> and run the coroutine on it using its
-<tt class="docutils literal">run_until_complete()</tt> method. So, all we have to do to run the
-previous coroutine is:</p>
-<div class="highlight"><pre><span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
-<span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">print_page</span><span class="p">(</span><span class="s">&#39;http://example.com&#39;</span><span class="p">))</span>
-</pre></div>
-<p>A useful function is <tt class="docutils literal">asyncio.wait</tt>, which takes a list a coroutines
-and returns a single coroutine that wrap them all, so we can write:</p>
-<div class="highlight"><pre><span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">([</span><span class="n">print_page</span><span class="p">(</span><span class="s">&#39;http://example.com/foo&#39;</span><span class="p">),</span>
-                                      <span class="n">print_page</span><span class="p">(</span><span class="s">&#39;http://example.com/bar&#39;</span><span class="p">)]))</span>
-</pre></div>
-<p>Another one is <tt class="docutils literal">asyncio.as_completed</tt>, that takes a list of coroutines
-and returns an iterator that yields the coroutines in the order in which
-they are completed, so that when you iterate on it, you get each
-result as soon as it's available.</p>
-</div>
-<div class="section" id="scraping">
-<h2>Scraping</h2>
-<p>Now that we know how to do asynchronous HTTP requests, we can write a
-scraper. The only other part we need is something to read the html. I
-use <a class="reference external" href="http://www.crummy.com/software/BeautifulSoup/">beautifulsoup</a> for that, be others like <a class="reference external" href="http://pythonhosted.org/pyquery/">pyquery</a> or <a class="reference external" href="http://lxml.de/">lxml</a>.</p>
-<p>For this example, we'll write a small scraper to get the torrent
-links for various linux distributions from the pirate bay.</p>
-<p>First of all, a helper coroutine to perform GET requests:</p>
-<div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
-<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">response</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">response</span><span class="o">.</span><span class="n">read_and_close</span><span class="p">(</span><span class="n">decode</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-</pre></div>
-<p>The parsing part. This post is not about beautifulsoup, so I'll keep
-it dumb and simple: we get the first magnet list of the page:</p>
-<div class="highlight"><pre><span class="k">def</span> <span class="nf">first_magnet</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
-    <span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">&#39;Download this torrent using magnet&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">]</span>
-</pre></div>
-<p>The coroutine. With this url, results are sorted by number of seeders,
-so the first result is actually the most seeded:</p>
-<div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
-<span class="k">def</span> <span class="nf">print_magnet</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;http://thepiratebay.se/search/{}/0/7/0&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-    <span class="n">page</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="n">magnet</span> <span class="o">=</span> <span class="n">first_magnet</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;{}: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">magnet</span><span class="p">))</span>
-</pre></div>
-<p>Finally, the code to call all of this:</p>
-<div class="highlight"><pre><span class="n">distros</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;archlinux&#39;</span><span class="p">,</span> <span class="s">&#39;ubuntu&#39;</span><span class="p">,</span> <span class="s">&#39;debian&#39;</span><span class="p">]</span>
-<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
-<span class="n">f</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">wait</span><span class="p">([</span><span class="n">print_magnet</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distros</span><span class="p">])</span>
-<span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="conclusion">
-<h2>Conclusion</h2>
-<p>And there you go, you have a small scraper that works
-asynchronously. That means the various pages are being downloaded at
-the same time, so this example is 3 times faster than the same code
-with <cite>requests</cite>. You should now be able to write your own scrapers in
-the same way.</p>
-<p>You can find the resulting code, including the bonus tracks, in this
-<a class="reference external" href="https://gist.github.com/madjar/9312452">gist</a>.</p>
-<p>Once you are comfortable with all this, I recommend you take a look at
-<a class="reference external" href="http://docs.python.org/3.4/library/asyncio.html">asyncio</a>'s documentation and aiohttp <a class="reference external" href="https://github.com/KeepSafe/aiohttp/tree/master/examples">examples</a>, which will show you
-all the potential asyncio has.</p>
-<p>One limitation of this approach (in fact, any hand-made approach) is
-that there doesn't seem to be a standalone library to handle
-forms. Mechanize and scrapy have nice helpers to easily submit forms,
-but if you don't use them, you'll have to do it yourself. This is
-something that bugs be, so I might write such a library at some point
-(but don't count on it for now).</p>
-</div>
-<div class="section" id="bonus-track-don-t-hammer-the-server">
-<h2>Bonus track: don't hammer the server</h2>
-<p>Doing 3 requests at the same time is cool, doing 5000, however, is not
-so nice. If you try to do too many requests at the same time,
-connections might start to get closed, or you might even get banned
-from the website.</p>
-<p>To avoid this, you can use a <a class="reference external" href="http://docs.python.org/3.4/library/asyncio-sync.html#semaphores">semaphore</a>. It is a synchronization tool
-that can be used to limit the number of coroutines that do something
-at some point. We'll just create the semaphore before creating the
-loop, passing as an argument the number of simultaneous requests we
-want to allow:</p>
-<div class="highlight"><pre><span class="n">sem</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</pre></div>
-<p>Then, we just replace:</p>
-<div class="highlight"><pre><span class="n">page</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-<p>by the same thing, but protected by a semaphore:</p>
-<div class="highlight"><pre><span class="k">with</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">sem</span><span class="p">):</span>
-    <span class="n">page</span> <span class="o">=</span> <span class="k">yield from</span> <span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">compress</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-<p>This will ensure that at most 5 requests can be done at the same time.</p>
-</div>
-<div class="section" id="bonus-track-progress-bar">
-<h2>Bonus track: progress bar</h2>
-<p>This one is just for free: <a class="reference external" href="https://github.com/noamraph/tqdm">tqdm</a> is a nice library to make progress
-bars. This coroutine works just like <tt class="docutils literal">asyncio.wait</tt>, but displays a
-progress bar indicating the completion of the coroutines passed to
-it:</p>
-<div class="highlight"><pre><span class="nd">@asyncio.coroutine</span>
-<span class="k">def</span> <span class="nf">wait_with_progress</span><span class="p">(</span><span class="n">coros</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">as_completed</span><span class="p">(</span><span class="n">coros</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">coros</span><span class="p">)):</span>
-        <span class="k">yield from</span> <span class="n">f</span>
-</pre></div>
-</div>
-<p>There are <a href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                        <ol id="posts-list" class="hfeed">
+also popular: one can ...</p>
+                <a class="readmore" href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html">read more</a>
+<p>There are <a href="http://compiletoi.net/fast-scraping-in-python-with-asyncio.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
