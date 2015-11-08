@@ -1,5 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/python.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2015-10-15T12:00:00+02:00</updated><entry><title>Through the lens of Haskell: exploring new ideas for library design</title><link href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html" rel="alternate"></link><updated>2015-10-15T12:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2015-10-15:through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html</id><summary type="html">&lt;p&gt;At EuroPython 2014, there was a talk about &lt;a class="reference external" href="https://youtube.com/watch?v=eVChXmNjV7o"&gt;&amp;quot;What Python can learn
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Compile-toi toi même</title><link href="http://compiletoi.net/" rel="alternate"></link><link href="http://compiletoi.net/feeds/python.atom.xml" rel="self"></link><id>http://compiletoi.net/</id><updated>2015-11-08T19:00:00+01:00</updated><entry><title>Garçon, there's a catamorphism in my Python</title><link href="http://compiletoi.net/garcon-theres-a-catamorphism-in-my-python.html" rel="alternate"></link><updated>2015-11-08T19:00:00+01:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2015-11-08:garcon-theres-a-catamorphism-in-my-python.html</id><summary type="html">&lt;p&gt;I've got a little project where I want to build a document from a
+template, and some data that are stored in a JSON (or YAML) file. This
+is pretty straighforward, but I've got an additional requirement: I
+want to make documents in multiple languages, and I want to specify
+the various translations of a string in the JSON file itself, like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;{ &amp;quot;en&amp;quot;: &amp;quot;This is a sentence in english&amp;quot;,
+  &amp;quot;fr&amp;quot;: &amp;quot;Ceci est une phrase en français&amp;quot;}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This seems quite easier, so I started coding straight away, and I
+arrived to this result:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;localize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  &lt;span class="c"&gt;# If this is a list, recurse into the list&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;localize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  &lt;span class="c"&gt;# If this is a dict, do what we must&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;                   &lt;span class="c"&gt;# Otherwise, do nothing&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Can you see the problem with this? I failed to recurse in the case of
+the dict. Of course, this is easily fixable: just replace the first
+&lt;code&gt;return data&lt;/code&gt; with &lt;code&gt;return {k: localize(lang, v) for (k, v) in
+data.items()}&lt;/code&gt;. But this is a common mistake, and it stems from the
+fact that we mixed our traversal code, and the actual transformation
+we wanted to make. Would it be possible to write our code in a way
+where no mistakes can be made?&lt;/p&gt;
+&lt;h2&gt;Complicated words to the rescue!&lt;/h2&gt;
+&lt;p&gt;I've been spending quite some time with haskell lately, and I recently
+learned about recursion schemes: a generic way to handle recursive
+data structure. In python, we have a generic way to handle iterative
+data structure: iterators. They let you handle a list, a tree, or
+anything with elements the same way: with a &lt;code&gt;for&lt;/code&gt; loop. Recursion
+schemes are the same idea, but for recursive data.&lt;/p&gt;
+&lt;p&gt;A recursive data type is a type where one value might contain another
+value of the same type. For example, a JSON value is recursive,
+because it can contain another JSON value (in a list or as the
+attribute of an object).&lt;/p&gt;
+&lt;p&gt;In haskell, if a type can contain something (whatever it is), you call
+it a functor, and you give it a function called &lt;code&gt;fmap&lt;/code&gt;, which execute
+a given function on all contained items. Let's implement it for our
+JSON values!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fmap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;()}&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now that JSON values have a &lt;code&gt;fmap&lt;/code&gt; function, we can use it to
+implement our generic recursive traversal. We want to traverse our
+data to build a new value along the way: this particular kind of
+recursion is called a catamorphism. Fear not, it's a rather simple
+implementation for a complicated word.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;cata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c"&gt;# First, we recurse inside all the values in data&lt;/span&gt;
+    &lt;span class="n"&gt;cata_on_f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;cata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;recursed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fmap&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cata_on_f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Then, we apply f to the result&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;recursed&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When you pass a function &lt;code&gt;f&lt;/code&gt; to cata, it is called at each level of
+the recursion, and is passed a copied version of the data where each
+contained value &lt;code&gt;x&lt;/code&gt; is replaced with &lt;code&gt;cata(f, x)&lt;/code&gt;. It means that &lt;code&gt;f&lt;/code&gt;
+doesn't have to worry about the recursion, when &lt;code&gt;f&lt;/code&gt; is called, the
+recursion has already been done.&lt;/p&gt;
+&lt;p&gt;For example, say we want the sum of all the integers in a tree (which
+we model as a nested list of lists). We need to write a function that
+only sums one level, since the recursion is done by &lt;code&gt;cata&lt;/code&gt;. The
+function receives either a value that is not a list, and just returns
+it, or a list were values have already been summed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;sum_one_level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, we can call &lt;code&gt;cata(sum_one_level, [[[1, 2], [3]], [4]])&lt;/code&gt;, and the
+result is &lt;code&gt;10&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Back to the localization&lt;/h2&gt;
+&lt;p&gt;So, we now have a &lt;code&gt;cata&lt;/code&gt; function that does the recursion for us, and
+does it well. To recreate our localization function, we need to define
+a function that only localizes one level. It takes a JSON value, and
+localize it (but without any recursion, since the recursion is handled
+by &lt;code&gt;cata&lt;/code&gt;).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;localize_one_level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can then define our new &lt;code&gt;localize&lt;/code&gt; using this function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;localize2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;localize_one_level_on_lang&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;localize_one_level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;localize_one_level_on_lang&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here we go! I've defined a function to recurse into JSON data in a
+generic way, and I'll never have to write a recursive function for
+JSON data ever again. I'll just need to define functions that work on
+one level, and that's it. And I can do that for any other recursive
+data type: I'll just need to create another &lt;code&gt;fmap&lt;/code&gt; implementation for
+them.&lt;/p&gt;</summary></entry><entry><title>Through the lens of Haskell: exploring new ideas for library design</title><link href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html" rel="alternate"></link><updated>2015-10-15T12:00:00+02:00</updated><author><name>Georges Dubus</name></author><id>tag:compiletoi.net,2015-10-15:through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html</id><summary type="html">&lt;p&gt;At EuroPython 2014, there was a talk about &lt;a class="reference external" href="https://youtube.com/watch?v=eVChXmNjV7o"&gt;&amp;quot;What Python can learn
 from Haskell&amp;quot;&lt;/a&gt;, which was very interesting, and seems to have
 sparkled the &lt;a class="reference external" href="https://www.python.org/dev/peps/pep-0484/"&gt;PEP 484&lt;/a&gt; (type annotations in python 3.5). This shows
 once more that sharing between languages can result in improvements

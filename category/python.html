@@ -30,30 +30,155 @@
 
             <aside id="featured" class="body">
                 <article class="mainarticle">
-                    <h1 class="entry-title"><a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html">Through the lens of Haskell: exploring new ideas for library design</a></h1>
+                    <h1 class="entry-title"><a href="http://compiletoi.net/garcon-theres-a-catamorphism-in-my-python.html">Garçon, there's a catamorphism in my Python</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2015-11-08T19:00:00+01:00">
+                Sun 08 November 2015
+        </abbr>
+
+<p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
+</footer><!-- /.post-info --><p>I've got a little project where I want to build a document from a
+template, and some data that are stored in a JSON (or YAML) file. This
+is pretty straighforward, but I've got an additional requirement: I
+want to make documents in multiple languages, and I want to specify
+the various translations of a string in the JSON file itself, like so:</p>
+<div class="highlight"><pre>{ &quot;en&quot;: &quot;This is a sentence in english&quot;,
+  &quot;fr&quot;: &quot;Ceci est une phrase en français&quot;}
+</pre></div>
+
+
+<p>This seems quite easier, so I started coding straight away, and I
+arrived to this result:</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">localize</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>  <span class="c"># If this is a list, recurse into the list</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">localize</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c"># If this is a dict, do what we must</span>
+        <span class="k">if</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>                   <span class="c"># Otherwise, do nothing</span>
+            <span class="k">return</span> <span class="n">data</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+
+<p>Can you see the problem with this? I failed to recurse in the case of
+the dict. Of course, this is easily fixable: just replace the first
+<code>return data</code> with <code>return {k: localize(lang, v) for (k, v) in
+data.items()}</code>. But this is a common mistake, and it stems from the
+fact that we mixed our traversal code, and the actual transformation
+we wanted to make. Would it be possible to write our code in a way
+where no mistakes can be made?</p>
+<h2>Complicated words to the rescue!</h2>
+<p>I've been spending quite some time with haskell lately, and I recently
+learned about recursion schemes: a generic way to handle recursive
+data structure. In python, we have a generic way to handle iterative
+data structure: iterators. They let you handle a list, a tree, or
+anything with elements the same way: with a <code>for</code> loop. Recursion
+schemes are the same idea, but for recursive data.</p>
+<p>A recursive data type is a type where one value might contain another
+value of the same type. For example, a JSON value is recursive,
+because it can contain another JSON value (in a list or as the
+attribute of an object).</p>
+<p>In haskell, if a type can contain something (whatever it is), you call
+it a functor, and you give it a function called <code>fmap</code>, which execute
+a given function on all contained items. Let's implement it for our
+JSON values!</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">fmap</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">data</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+
+<p>Now that JSON values have a <code>fmap</code> function, we can use it to
+implement our generic recursive traversal. We want to traverse our
+data to build a new value along the way: this particular kind of
+recursion is called a catamorphism. Fear not, it's a rather simple
+implementation for a complicated word.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">cata</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="c"># First, we recurse inside all the values in data</span>
+    <span class="n">cata_on_f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cata</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">recursed</span> <span class="o">=</span> <span class="n">fmap</span><span class="p">(</span><span class="n">cata_on_f</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="c"># Then, we apply f to the result</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">recursed</span><span class="p">)</span>
+</pre></div>
+
+
+<p>When you pass a function <code>f</code> to cata, it is called at each level of
+the recursion, and is passed a copied version of the data where each
+contained value <code>x</code> is replaced with <code>cata(f, x)</code>. It means that <code>f</code>
+doesn't have to worry about the recursion, when <code>f</code> is called, the
+recursion has already been done.</p>
+<p>For example, say we want the sum of all the integers in a tree (which
+we model as a nested list of lists). We need to write a function that
+only sums one level, since the recursion is done by <code>cata</code>. The
+function receives either a value that is not a list, and just returns
+it, or a list were values have already been summed.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">sum_one_level</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+
+<p>Now, we can call <code>cata(sum_one_level, [[[1, 2], [3]], [4]])</code>, and the
+result is <code>10</code>.</p>
+<h2>Back to the localization</h2>
+<p>So, we now have a <code>cata</code> function that does the recursion for us, and
+does it well. To recreate our localization function, we need to define
+a function that only localizes one level. It takes a JSON value, and
+localize it (but without any recursion, since the recursion is handled
+by <code>cata</code>).</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">localize_one_level</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">data</span>
+</pre></div>
+
+
+<p>We can then define our new <code>localize</code> using this function.</p>
+<div class="highlight"><pre><span class="k">def</span> <span class="nf">localize2</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="n">localize_one_level_on_lang</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">localize_one_level</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cata</span><span class="p">(</span><span class="n">localize_one_level_on_lang</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Here we go! I've defined a function to recurse into JSON data in a
+generic way, and I'll never have to write a recursive function for
+JSON data ever again. I'll just need to define functions that work on
+one level, and that's it. And I can do that for any other recursive
+data type: I'll just need to create another <code>fmap</code> implementation for
+them.</p><p>There are <a href="http://compiletoi.net/garcon-theres-a-catamorphism-in-my-python.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                        <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                        <h1><a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html" rel="bookmark" title="Permalink to Through the lens of Haskell: exploring new ideas for library design">Through the lens of Haskell: exploring new ideas for library design</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2015-10-15T12:00:00+02:00">
                 Thu 15 October 2015
         </abbr>
 
 <p>In <a href="http://compiletoi.net/category/python.html">python</a>. </p>
-<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a><a href="http://compiletoi.net/tag/haskell.html">haskell</a></p></footer><!-- /.post-info --><p>At EuroPython 2014, there was a talk about <a class="reference external" href="https://youtube.com/watch?v=eVChXmNjV7o">&quot;What Python can learn
+<p>tags: <a href="http://compiletoi.net/tag/python.html">python</a><a href="http://compiletoi.net/tag/haskell.html">haskell</a></p></footer><!-- /.post-info -->                <p>At EuroPython 2014, there was a talk about <a class="reference external" href="https://youtube.com/watch?v=eVChXmNjV7o">&quot;What Python can learn
 from Haskell&quot;</a>, which was very interesting, and seems to have
 sparkled the <a class="reference external" href="https://www.python.org/dev/peps/pep-0484/">PEP 484</a> (type annotations in python 3.5). This shows
 once more that sharing between languages can result in improvements
 for everybody involved.</p>
-<p>In this talk, we take another look at Haskell. However, rather than
-looking at the language itself, we'll look at how the community finds
-ideas for tools and libraries by exploring the &quot;design space&quot;</p>
-<p>I gave this talk at EuroPython 2015. The quality of the video is not
-very good (my blue-coloring vga output doesn't help), so here is a
-link to <a class="reference external" href="https://docs.google.com/presentation/d/1Joj0ng6slcKCaDXytvUCxfhrW9H26uXxdPtOJHD_Zd8/edit?usp=sharing">the slides</a>.</p>
-<div class="youtube" align="center"><iframe width="420" height="315" src="https://www.youtube.com/embed/22lmEdB9QyU" frameborder="0"></iframe></div><p>There are <a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                        <ol id="posts-list" class="hfeed">
+<p>In this talk ...</p>
+                <a class="readmore" href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html">read more</a>
+<p>There are <a href="http://compiletoi.net/through-the-lens-of-haskell-exploring-new-ideas-for-library-design.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
