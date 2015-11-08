@@ -18,7 +18,7 @@ arrived to this result:
 ```python
 def localize(lang, data):
     if isinstance(data, list):  # If this is a list, recurse into the list
-        return [localize(lang, x) for x in list]
+        return [localize(lang, x) for x in data]
     if isinstance(data, dict):  # If this is a dict, do what we must
         if lang in data:
             return data[lang]
